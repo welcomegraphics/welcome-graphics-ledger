@@ -1,447 +1,1454 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="Welcome Graphics — Business Dashboard">
+<title>Welcome Graphics</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Geist+Mono:wght@400;500&family=Syne:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:var(--font-sans);color:var(--color-text-primary)}
-.view{display:none}
-.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-input,select,textarea{font-family:var(--font-sans);font-size:13px;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);width:100%;outline:none}
-input:focus,select:focus,textarea:focus{border-color:var(--color-border-primary)}
-textarea{resize:vertical;min-height:56px}
-button{font-family:var(--font-sans);cursor:pointer}
-.btn{font-size:13px;padding:7px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);display:inline-flex;align-items:center;gap:5px}
-.btn:hover{background:var(--color-background-secondary)}
-.btn-primary{background:#1D9E75;border-color:#0F6E56;color:#fff}
-.btn-primary:hover{background:#0F6E56}
-.btn-sm{font-size:12px;padding:5px 10px}
-.btn-ghost{border-color:transparent;background:transparent;color:var(--color-text-secondary)}
-.btn-ghost:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
-.label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;display:block}
-.field{display:flex;flex-direction:column;gap:3px}
-.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
-.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1rem 0}
-.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:2px 8px;border-radius:var(--border-radius-md)}
-.b-amber{background:#FAEEDA;color:#633806}
-.b-blue{background:#E6F1FB;color:#0C447C}
-.b-green{background:#EAF3DE;color:#27500A}
-.b-gray{background:#F1EFE8;color:#444441}
-.b-teal{background:#E1F5EE;color:#085041}
-.b-red{background:#FCEBEB;color:#791F1F}
-</style>
-<h2 class="sr-only">Welcome Graphics party-wise ledger — manage client jobs and payments</h2>
-
-<div id="v-home" class="view">
-  <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0 1rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.25rem">
-    <div>
-      <div style="font-size:18px;font-weight:500;display:flex;align-items:center;gap:8px"><i class="ti ti-notebook" style="font-size:20px;color:#1D9E75" aria-hidden="true"></i>Party Ledger</div>
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Welcome Graphics · Panipat</div>
-    </div>
-    <button class="btn btn-primary" onclick="go('add-party')"><i class="ti ti-plus" aria-hidden="true"></i>New party</button>
-  </div>
-  <div id="home-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.25rem"></div>
-  <div id="home-list"></div>
-  <div id="home-empty" style="display:none;text-align:center;padding:3rem 0;color:var(--color-text-secondary)">
-    <i class="ti ti-users" style="font-size:36px;display:block;margin-bottom:10px;opacity:0.4" aria-hidden="true"></i>
-    <div style="font-size:14px;font-weight:500">Koi party nahi abhi</div>
-    <div style="font-size:13px;margin-top:4px;opacity:0.7">New party button se pehli entry karo</div>
-  </div>
-</div>
-
-<div id="v-add-party" class="view">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
-    <button class="btn btn-sm btn-ghost" onclick="go('home')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
-    <div style="font-size:16px;font-weight:500" id="ap-heading">New party</div>
-  </div>
-  <div class="card">
-    <div class="g2" style="margin-bottom:12px">
-      <div class="field"><label class="label">Party / client name <span style="color:#E24B4A">*</span></label><input id="ap-name" placeholder="e.g. Shiv Mandir Trust"></div>
-      <div class="field"><label class="label">Phone</label><input id="ap-phone" placeholder="e.g. 98765 43210"></div>
-    </div>
-    <div class="g2">
-      <div class="field"><label class="label">Category</label>
-        <select id="ap-cat">
-          <option>Religious / Temple</option><option>Wedding / Event</option><option>Shop / Retail</option>
-          <option>School / College</option><option>Political</option><option>B2B Client</option><option>Other</option>
-        </select>
-      </div>
-      <div class="field"><label class="label">Address</label><input id="ap-addr" placeholder="Optional"></div>
-    </div>
-    <div style="display:flex;gap:8px;margin-top:14px">
-      <button class="btn btn-primary" onclick="saveParty()"><i class="ti ti-check" aria-hidden="true"></i>Save</button>
-      <button class="btn" onclick="go('home')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<div id="v-party" class="view">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap">
-    <button class="btn btn-sm btn-ghost" onclick="go('home')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
-    <div>
-      <div style="font-size:16px;font-weight:500" id="pd-name"></div>
-      <div style="font-size:12px;color:var(--color-text-secondary)" id="pd-meta"></div>
-    </div>
-    <div style="margin-left:auto;display:flex;gap:6px">
-      <button class="btn btn-sm btn-ghost" onclick="editParty()"><i class="ti ti-edit" aria-hidden="true"></i>Edit</button>
-      <button class="btn btn-sm btn-primary" onclick="startAddItem()"><i class="ti ti-plus" aria-hidden="true"></i>Add item</button>
-    </div>
-  </div>
-  <div id="pd-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.25rem"></div>
-
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px"><i class="ti ti-receipt" style="font-size:15px" aria-hidden="true"></i>Items</div>
-  </div>
-  <div id="items-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem"></div>
-
-  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
-    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px"><i class="ti ti-cash" style="font-size:15px" aria-hidden="true"></i>Payments received</div>
-    <button class="btn btn-sm" onclick="showPmtForm()"><i class="ti ti-plus" aria-hidden="true"></i>Add</button>
-  </div>
-  <div id="pmt-form" style="display:none;margin-bottom:10px">
-    <div class="card" style="border:0.5px solid var(--color-border-secondary)">
-      <div class="g3" style="margin-bottom:10px">
-        <div class="field"><label class="label">Date</label><input type="date" id="pm-date"></div>
-        <div class="field"><label class="label">Amount (₹)</label><input type="number" id="pm-amt" placeholder="0"></div>
-        <div class="field"><label class="label">Mode</label><select id="pm-mode"><option>Cash</option><option>UPI</option><option>Bank transfer</option><option>Cheque</option></select></div>
-      </div>
-      <div class="field" style="margin-bottom:10px"><label class="label">Note</label><input id="pm-note" placeholder="e.g. 50% advance"></div>
-      <div style="display:flex;gap:8px">
-        <button class="btn btn-sm btn-primary" onclick="savePayment()"><i class="ti ti-check" aria-hidden="true"></i>Save</button>
-        <button class="btn btn-sm" onclick="document.getElementById('pmt-form').style.display='none'">Cancel</button>
-      </div>
-    </div>
-  </div>
-  <div id="pmts-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem"></div>
-
-  <div class="card" style="background:var(--color-background-secondary);border:none" id="balance-card"></div>
-</div>
-
-<div id="v-add-item" class="view">
-  <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
-    <button class="btn btn-sm btn-ghost" onclick="go('party')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
-    <div style="font-size:16px;font-weight:500" id="ai-heading">Add item</div>
-  </div>
-  <div class="card">
-    <div class="g3" style="margin-bottom:12px">
-      <div class="field"><label class="label">Date <span style="color:#E24B4A">*</span></label><input type="date" id="ai-date"></div>
-      <div class="field"><label class="label">Job type</label>
-        <select id="ai-job">
-          <option value="">Select…</option><option>Flex banner</option><option>Visiting card</option>
-          <option>Bill book</option><option>Pamphlet</option><option>Digital print</option>
-          <option>Sticker</option><option>Poster</option><option>Hoarding</option>
-          <option>Photo magazine</option><option>Standee</option><option>Other</option>
-        </select>
-      </div>
-      <div class="field"><label class="label">Status</label>
-        <select id="ai-status"><option>Pending</option><option>In progress</option><option>Done</option><option>Cancelled</option></select>
-      </div>
-    </div>
-    <div class="field" style="margin-bottom:12px"><label class="label">Description <span style="color:#E24B4A">*</span></label><input id="ai-desc" placeholder="e.g. 6×4 ft flex banner, red background, Hindi text"></div>
-    <div class="g3" style="margin-bottom:12px">
-      <div class="field"><label class="label">Qty / Size</label><input id="ai-qty" placeholder="e.g. 2 pcs"></div>
-      <div class="field"><label class="label">Rate (₹)</label><input type="number" id="ai-rate" placeholder="0" oninput="autoAmt()"></div>
-      <div class="field"><label class="label">Amount (₹)</label><input type="number" id="ai-amt" placeholder="0"></div>
-    </div>
-    <div class="field" style="margin-bottom:14px"><label class="label">Notes</label><textarea id="ai-notes" placeholder="Extra details, file info, special instructions…"></textarea></div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-primary" onclick="saveItem()"><i class="ti ti-check" aria-hidden="true"></i>Save item</button>
-      <button class="btn" onclick="go('party')">Cancel</button>
-    </div>
-  </div>
-</div>
-
-<script>
-const SK='wg_pl_v3';
-let DB=JSON.parse(localStorage.getItem(SK)||'{"parties":[],"nid":1}');
-let CUR=null,EDIT_ITEM=null,EDIT_PARTY=null;
-const save=()=>localStorage.setItem(SK,JSON.stringify(DB));
-const td=()=>new Date().toISOString().slice(0,10);
-const fmt=d=>d?d.split('-').reverse().join('/'):'—';
-const inr=n=>('₹'+(Math.round(n||0)).toLocaleString('en-IN'));
-const statusBadge=s=>{const m={Pending:'b-amber','In progress':'b-blue',Done:'b-green',Cancelled:'b-gray'};return`<span class="badge ${m[s]||'b-gray'}">${s}</span>`};
-const initials=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
-const catIcon={Religious:'ti-om',Wedding:'ti-confetti',Shop:'ti-building-store',School:'ti-school',Political:'ti-flag',B2B:'ti-building',Other:'ti-user'};
-const getCatIcon=c=>{const k=Object.keys(catIcon).find(k=>c&&c.includes(k));return catIcon[k||'Other']};
-
-function go(v){
-  document.querySelectorAll('.view').forEach(el=>el.style.display='none');
-  document.getElementById('v-'+v).style.display='block';
-  if(v==='home')renderHome();
-  if(v==='party')renderParty();
+/* ════════════════════════════════════════════
+   DESIGN SYSTEM — Dark, minimal, business
+════════════════════════════════════════════ */
+:root {
+  --bg:        #0c0c0c;
+  --bg1:       #111111;
+  --bg2:       #171717;
+  --bg3:       #1e1e1e;
+  --bg4:       #252525;
+  --border:    #2a2a2a;
+  --border2:   #333333;
+  --text:      #f0ede8;
+  --text2:     #8a8782;
+  --text3:     #555250;
+  --accent:    #d4a853;
+  --accent2:   #b8903f;
+  --accent-bg: rgba(212,168,83,0.08);
+  --accent-bg2:rgba(212,168,83,0.14);
+  --green:     #4ade9a;
+  --green-bg:  rgba(74,222,154,0.08);
+  --red:       #f87171;
+  --red-bg:    rgba(248,113,113,0.08);
+  --blue:      #60a5fa;
+  --blue-bg:   rgba(96,165,250,0.08);
+  --amber:     #fbbf24;
+  --amber-bg:  rgba(251,191,36,0.08);
+  --r-sm:      6px;
+  --r:         10px;
+  --r-lg:      14px;
+  --font:      'DM Sans', sans-serif;
+  --font-head: 'Syne', sans-serif;
+  --font-mono: 'Geist Mono', monospace;
+  --sidebar-w: 220px;
+  --topbar-h:  56px;
 }
 
-function renderHome(){
-  const ps=DB.parties;
-  const totRev=ps.reduce((s,p)=>s+p.items.reduce((a,i)=>i.status!=='Cancelled'?a+(i.amount||0):a,0),0);
-  const totDue=ps.reduce((s,p)=>{const t=p.items.reduce((a,i)=>i.status!=='Cancelled'?a+(i.amount||0):a,0);const pd=p.payments.reduce((a,pm)=>a+(pm.amount||0),0);return s+Math.max(0,t-pd);},0);
-  const open=ps.filter(p=>p.items.some(i=>i.status==='Pending'||i.status==='In progress')).length;
-  document.getElementById('home-stats').innerHTML=`
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Total parties</div>
-      <div style="font-size:22px;font-weight:500">${ps.length}</div>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { font-size: 14px; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+button { font-family: var(--font); cursor: pointer; border: none; background: none; }
+input, select, textarea { font-family: var(--font); }
+::selection { background: var(--accent-bg2); color: var(--accent); }
+
+/* ── SCROLLBAR ────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 9px; }
+
+/* ════════════════════════════════════════════
+   PIN LOCK SCREEN
+════════════════════════════════════════════ */
+#lock-screen {
+  position: fixed; inset: 0; z-index: 1000;
+  background: var(--bg);
+  display: flex; align-items: center; justify-content: center;
+}
+.lock-inner {
+  display: flex; flex-direction: column; align-items: center; gap: 28px;
+  animation: fadeUp .5s ease both;
+}
+.lock-logo {
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.lock-logo .brand-mark {
+  width: 52px; height: 52px; border-radius: 14px;
+  background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 40px rgba(212,168,83,0.25);
+}
+.lock-logo .brand-mark i { font-size: 24px; color: #0c0c0c; }
+.lock-logo h1 { font-family: var(--font-head); font-size: 22px; font-weight: 700; letter-spacing: -0.02em; }
+.lock-logo p { font-size: 12px; color: var(--text2); letter-spacing: 0.06em; text-transform: uppercase; }
+
+.pin-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 28px 32px;
+  width: 320px;
+  display: flex; flex-direction: column; gap: 20px;
+}
+.pin-label { font-size: 13px; color: var(--text2); text-align: center; }
+.pin-dots { display: flex; justify-content: center; gap: 10px; }
+.pin-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: var(--border2); transition: background .15s, transform .15s;
+}
+.pin-dot.filled { background: var(--accent); transform: scale(1.1); }
+.pin-dot.error { background: var(--red) !important; }
+
+.pin-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px;
+}
+.pin-key {
+  height: 52px; border-radius: var(--r-sm);
+  background: var(--bg3); border: 1px solid var(--border);
+  color: var(--text); font-size: 18px; font-weight: 500;
+  display: flex; align-items: center; justify-content: center;
+  transition: all .1s; user-select: none;
+}
+.pin-key:hover { background: var(--bg4); border-color: var(--border2); }
+.pin-key:active { background: var(--accent-bg); border-color: var(--accent); transform: scale(.96); }
+.pin-key.backspace { font-size: 20px; color: var(--text2); }
+.pin-error { font-size: 12px; color: var(--red); text-align: center; min-height: 18px; }
+
+/* ════════════════════════════════════════════
+   APP SHELL
+════════════════════════════════════════════ */
+#app { display: none; min-height: 100vh; }
+
+/* ── SIDEBAR ──────────────────────────────── */
+.sidebar {
+  position: fixed; left: 0; top: 0; bottom: 0;
+  width: var(--sidebar-w);
+  background: var(--bg1);
+  border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100;
+  transition: transform .25s cubic-bezier(.4,0,.2,1);
+}
+.sb-header {
+  padding: 18px 16px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 10px;
+}
+.sb-brand-mark {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.sb-brand-mark i { font-size: 15px; color: #0c0c0c; }
+.sb-brand-name { font-family: var(--font-head); font-size: 14px; font-weight: 700; line-height: 1.2; }
+.sb-brand-sub { font-size: 10px; color: var(--text3); letter-spacing: 0.05em; }
+
+.sb-nav { flex: 1; padding: 10px 8px; overflow-y: auto; }
+.sb-group { margin-bottom: 18px; }
+.sb-group-label {
+  font-size: 10px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--text3); padding: 0 8px; margin-bottom: 4px;
+}
+.nav-item {
+  display: flex; align-items: center; gap: 9px;
+  padding: 8px 10px; border-radius: var(--r-sm);
+  font-size: 13px; color: var(--text2);
+  cursor: pointer; transition: all .15s;
+  margin-bottom: 1px; user-select: none;
+}
+.nav-item i { font-size: 17px; flex-shrink: 0; }
+.nav-item:hover { background: var(--bg3); color: var(--text); }
+.nav-item.active { background: var(--accent-bg); color: var(--accent); }
+.nav-item .nav-badge {
+  margin-left: auto; font-size: 10px; font-weight: 600;
+  background: var(--bg3); color: var(--text2);
+  padding: 1px 6px; border-radius: 20px;
+}
+.nav-item.active .nav-badge { background: var(--accent-bg2); color: var(--accent); }
+
+.sb-footer {
+  padding: 12px 16px;
+  border-top: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: space-between;
+}
+.sb-footer-info { font-size: 11px; color: var(--text3); }
+.sb-lock-btn {
+  display: flex; align-items: center; gap: 5px;
+  font-size: 12px; color: var(--text3);
+  padding: 5px 8px; border-radius: var(--r-sm);
+  background: transparent; transition: all .15s;
+}
+.sb-lock-btn:hover { background: var(--bg3); color: var(--red); }
+
+/* ── MAIN CONTENT ─────────────────────────── */
+.main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+
+.topbar {
+  height: var(--topbar-h);
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center;
+  padding: 0 24px; gap: 12px;
+  background: var(--bg);
+  position: sticky; top: 0; z-index: 50;
+}
+.topbar-title { font-family: var(--font-head); font-size: 16px; font-weight: 600; flex: 1; }
+.topbar-actions { display: flex; gap: 8px; align-items: center; }
+
+.page-content { padding: 24px; flex: 1; max-width: 1100px; }
+
+/* Mobile toggle */
+.mobile-menu-btn {
+  display: none; width: 36px; height: 36px;
+  align-items: center; justify-content: center;
+  border-radius: var(--r-sm); color: var(--text2);
+  font-size: 20px; background: transparent; transition: all .15s;
+}
+.mobile-menu-btn:hover { background: var(--bg3); color: var(--text); }
+.sidebar-overlay {
+  display: none; position: fixed; inset: 0; z-index: 90;
+  background: rgba(0,0,0,.6); backdrop-filter: blur(2px);
+}
+
+/* ════════════════════════════════════════════
+   COMPONENTS
+════════════════════════════════════════════ */
+
+/* Buttons */
+.btn {
+  display: inline-flex; align-items: center; gap: 6px;
+  padding: 8px 14px; border-radius: var(--r-sm);
+  font-size: 13px; font-weight: 500;
+  border: 1px solid var(--border2);
+  background: var(--bg3); color: var(--text);
+  transition: all .15s; cursor: pointer; white-space: nowrap;
+}
+.btn:hover { background: var(--bg4); border-color: var(--border2); }
+.btn-primary {
+  background: var(--accent); border-color: var(--accent);
+  color: #0c0c0c; font-weight: 600;
+}
+.btn-primary:hover { background: #e8b85e; border-color: #e8b85e; }
+.btn-sm { font-size: 12px; padding: 5px 10px; }
+.btn-ghost { background: transparent; border-color: transparent; color: var(--text2); }
+.btn-ghost:hover { background: var(--bg3); color: var(--text); border-color: transparent; }
+.btn-danger { background: transparent; border-color: var(--border); color: var(--text2); }
+.btn-danger:hover { background: var(--red-bg); border-color: var(--red); color: var(--red); }
+.btn-icon { padding: 7px; }
+
+/* Stats grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px; margin-bottom: 28px;
+}
+.stat-card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 16px 18px;
+}
+.stat-card .sc-label {
+  font-size: 11px; text-transform: uppercase; letter-spacing: 0.06em;
+  color: var(--text3); margin-bottom: 8px; font-weight: 500;
+}
+.stat-card .sc-value { font-size: 26px; font-weight: 600; font-family: var(--font-head); line-height: 1; }
+.stat-card .sc-sub { font-size: 11px; color: var(--text3); margin-top: 6px; }
+
+/* Cards */
+.card {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  padding: 20px 22px;
+}
+
+/* Section header */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px;
+}
+.section-header .sh-title {
+  font-family: var(--font-head); font-size: 15px; font-weight: 600;
+  display: flex; align-items: center; gap: 8px;
+}
+.section-header .sh-title i { font-size: 17px; color: var(--text2); }
+
+/* Table */
+.table-wrap {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r-lg); overflow: hidden;
+}
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left; font-size: 11px; letter-spacing: 0.06em;
+  text-transform: uppercase; color: var(--text3); font-weight: 500;
+  padding: 12px 16px; border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+}
+td {
+  padding: 13px 16px; border-bottom: 1px solid var(--border);
+  font-size: 13px; vertical-align: middle;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: var(--bg3); }
+
+/* Badges */
+.badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  font-size: 11px; font-weight: 600; padding: 2px 8px;
+  border-radius: 20px; letter-spacing: 0.02em;
+}
+.badge-pending  { background: var(--amber-bg); color: var(--amber); }
+.badge-progress { background: var(--blue-bg);  color: var(--blue); }
+.badge-done     { background: var(--green-bg); color: var(--green); }
+.badge-cancelled{ background: var(--bg3);      color: var(--text3); }
+.badge-accent   { background: var(--accent-bg);color: var(--accent); }
+
+/* Forms */
+.form-grid { display: grid; gap: 14px; }
+.form-grid.g2 { grid-template-columns: 1fr 1fr; }
+.form-grid.g3 { grid-template-columns: 1fr 1fr 1fr; }
+.field { display: flex; flex-direction: column; gap: 5px; }
+.field label {
+  font-size: 12px; font-weight: 500; color: var(--text2);
+  letter-spacing: 0.02em;
+}
+.field label .req { color: var(--red); margin-left: 2px; }
+.field input, .field select, .field textarea {
+  background: var(--bg3); border: 1px solid var(--border2);
+  border-radius: var(--r-sm); color: var(--text);
+  padding: 9px 12px; font-size: 13px; outline: none;
+  transition: border-color .15s;
+  -webkit-appearance: none;
+}
+.field select { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px; }
+.field input:focus, .field select:focus, .field textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(212,168,83,0.1);
+}
+.field textarea { resize: vertical; min-height: 72px; line-height: 1.5; }
+.form-actions { display: flex; gap: 8px; margin-top: 6px; flex-wrap: wrap; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,.7); backdrop-filter: blur(4px);
+  display: none; align-items: center; justify-content: center;
+  padding: 16px;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: var(--r-lg); width: 100%; max-width: 540px;
+  max-height: 90vh; overflow-y: auto;
+  animation: fadeUp .2s ease both;
+}
+.modal-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 22px; border-bottom: 1px solid var(--border);
+}
+.modal-header h3 { font-family: var(--font-head); font-size: 16px; font-weight: 600; }
+.modal-body { padding: 20px 22px; }
+.modal-footer {
+  padding: 16px 22px; border-top: 1px solid var(--border);
+  display: flex; gap: 8px; justify-content: flex-end;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex; flex-direction: column; align-items: center;
+  padding: 48px 24px; gap: 10px; text-align: center;
+  color: var(--text3);
+}
+.empty-state i { font-size: 42px; opacity: .3; }
+.empty-state p { font-size: 14px; color: var(--text2); font-weight: 500; }
+.empty-state small { font-size: 12px; }
+
+/* Back row */
+.back-row {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 22px; flex-wrap: wrap;
+}
+.back-row h2 { font-family: var(--font-head); font-size: 18px; font-weight: 600; }
+.back-row .br-sub { font-size: 12px; color: var(--text3); }
+.back-row .br-actions { margin-left: auto; display: flex; gap: 6px; }
+
+/* Toast */
+#toast {
+  position: fixed; bottom: 24px; right: 24px; z-index: 999;
+  background: var(--bg4); border: 1px solid var(--border2);
+  color: var(--text); font-size: 13px; font-weight: 500;
+  padding: 11px 18px; border-radius: var(--r);
+  display: flex; align-items: center; gap: 8px;
+  opacity: 0; transform: translateY(8px);
+  transition: all .25s; pointer-events: none;
+  box-shadow: 0 8px 24px rgba(0,0,0,.4);
+}
+#toast.show { opacity: 1; transform: translateY(0); }
+#toast i { color: var(--green); font-size: 16px; }
+#toast.err i { color: var(--red); }
+
+/* Divider */
+.divider { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+/* Mono text */
+.mono { font-family: var(--font-mono); font-size: 12px; }
+
+/* Client avatar */
+.c-avatar {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: var(--accent-bg); border: 1px solid var(--accent-bg2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-size: 12px; font-weight: 700;
+  color: var(--accent); flex-shrink: 0;
+}
+
+/* Inline label */
+.inline-meta { display: flex; align-items: center; gap: 6px; color: var(--text3); font-size: 12px; }
+.inline-meta i { font-size: 13px; }
+
+/* Progress bar */
+.progress-bar { height: 3px; background: var(--bg3); border-radius: 2px; overflow: hidden; margin-top: 6px; }
+.progress-bar .fill { height: 100%; background: var(--accent); border-radius: 2px; transition: width .4s; }
+
+/* ── VIEWS ────────────────────────────────── */
+.view { display: none; animation: fadeIn .2s ease both; }
+.view.active { display: block; }
+
+/* ── ANIMATIONS ───────────────────────────── */
+@keyframes fadeIn  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fadeUp  { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes shake   { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-6px)} 40%,80%{transform:translateX(6px)} }
+
+/* ── RESPONSIVE ───────────────────────────── */
+@media (max-width: 768px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .sidebar-overlay.open { display: block; }
+  .main { margin-left: 0; }
+  .mobile-menu-btn { display: flex; }
+  .page-content { padding: 16px; }
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+  .form-grid.g3 { grid-template-columns: 1fr 1fr; }
+  .form-grid.g2 { grid-template-columns: 1fr; }
+  table { font-size: 12px; }
+  th, td { padding: 10px 12px; }
+}
+@media (max-width: 440px) {
+  .stats-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ─── TOAST ─────────────────────────────── -->
+<div id="toast"><i class="ti ti-check"></i><span id="toast-msg"></span></div>
+
+<!-- ─── LOCK SCREEN ───────────────────────── -->
+<div id="lock-screen">
+  <div class="lock-inner">
+    <div class="lock-logo">
+      <div class="brand-mark"><i class="ti ti-printer"></i></div>
+      <h1>Welcome Graphics</h1>
+      <p>Business Dashboard</p>
     </div>
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Total revenue</div>
-      <div style="font-size:22px;font-weight:500;color:#0F6E56">${inr(totRev)}</div>
-    </div>
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Amount due</div>
-      <div style="font-size:22px;font-weight:500;color:${totDue>0?'#A32D2D':'#0F6E56'}">${totDue>0?inr(totDue):'Nil'}</div>
-    </div>
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
-      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Active jobs</div>
-      <div style="font-size:22px;font-weight:500;color:#185FA5">${open}</div>
-    </div>`;
-  if(!ps.length){document.getElementById('home-list').innerHTML='';document.getElementById('home-empty').style.display='block';return;}
-  document.getElementById('home-empty').style.display='none';
-  document.getElementById('home-list').innerHTML=ps.map(p=>{
-    const total=p.items.reduce((s,i)=>i.status!=='Cancelled'?s+(i.amount||0):s,0);
-    const paid=p.payments.reduce((s,pm)=>s+(pm.amount||0),0);
-    const due=total-paid;
-    const icon=getCatIcon(p.category);
-    const ic=initials(p.name);
-    return`<div onclick="openParty(${p.id})" style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:border-color .15s;margin-bottom:8px" onmouseenter="this.style.borderColor='var(--color-border-secondary)'" onmouseleave="this.style.borderColor='var(--color-border-tertiary)'">
-      <div style="width:42px;height:42px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:14px;color:#085041;flex-shrink:0">${ic}</div>
-      <div style="flex:1;min-width:0">
-        <div style="font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
-        <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px;display:flex;align-items:center;gap:6px"><i class="ti ${icon}" style="font-size:13px" aria-hidden="true"></i>${p.category||''}${p.phone?' · '+p.phone:''} · ${p.items.length} item${p.items.length!==1?'s':''}</div>
+    <div class="pin-card">
+      <div class="pin-label">Enter your PIN to continue</div>
+      <div class="pin-dots" id="pin-dots">
+        <div class="pin-dot" id="d0"></div>
+        <div class="pin-dot" id="d1"></div>
+        <div class="pin-dot" id="d2"></div>
+        <div class="pin-dot" id="d3"></div>
       </div>
-      <div style="text-align:right;flex-shrink:0">
-        <div style="font-size:15px;font-weight:500">${inr(total)}</div>
-        <div style="font-size:12px;margin-top:2px;${due>0?'color:#A32D2D':'color:#0F6E56'}">${due>0?'Due '+inr(due):'Settled ✓'}</div>
+      <div class="pin-grid" id="pin-grid"></div>
+      <div class="pin-error" id="pin-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── SIDEBAR OVERLAY ───────────────────── -->
+<div class="sidebar-overlay" id="sb-overlay" onclick="closeSidebar()"></div>
+
+<!-- ─── APP ───────────────────────────────── -->
+<div id="app">
+  <nav class="sidebar" id="sidebar">
+    <div class="sb-header">
+      <div class="sb-brand-mark"><i class="ti ti-printer"></i></div>
+      <div>
+        <div class="sb-brand-name">Welcome Graphics</div>
+        <div class="sb-brand-sub">Panipat · Est. 2008</div>
       </div>
-      <i class="ti ti-chevron-right" style="font-size:16px;color:var(--color-text-secondary);flex-shrink:0" aria-hidden="true"></i>
-    </div>`;
+    </div>
+    <div class="sb-nav">
+      <div class="sb-group">
+        <div class="sb-group-label">Overview</div>
+        <div class="nav-item active" data-view="dashboard" onclick="navTo('dashboard',this)">
+          <i class="ti ti-layout-dashboard"></i> Dashboard
+        </div>
+      </div>
+      <div class="sb-group">
+        <div class="sb-group-label">Business</div>
+        <div class="nav-item" data-view="clients" onclick="navTo('clients',this)">
+          <i class="ti ti-users"></i> Clients
+          <span class="nav-badge" id="nb-clients">0</span>
+        </div>
+        <div class="nav-item" data-view="projects" onclick="navTo('projects',this)">
+          <i class="ti ti-folders"></i> Projects
+          <span class="nav-badge" id="nb-projects">0</span>
+        </div>
+        <div class="nav-item" data-view="payments" onclick="navTo('payments',this)">
+          <i class="ti ti-cash"></i> Payments
+        </div>
+      </div>
+      <div class="sb-group">
+        <div class="sb-group-label">System</div>
+        <div class="nav-item" data-view="settings" onclick="navTo('settings',this)">
+          <i class="ti ti-settings"></i> Settings
+        </div>
+      </div>
+    </div>
+    <div class="sb-footer">
+      <div class="sb-footer-info">v2.0 · Private</div>
+      <button class="sb-lock-btn" onclick="lockApp()"><i class="ti ti-lock"></i> Lock</button>
+    </div>
+  </nav>
+
+  <div class="main">
+    <div class="topbar">
+      <button class="mobile-menu-btn" onclick="openSidebar()"><i class="ti ti-menu-2"></i></button>
+      <div class="topbar-title" id="topbar-title">Dashboard</div>
+      <div class="topbar-actions">
+        <button class="btn btn-sm" onclick="backupData()"><i class="ti ti-cloud-download"></i>Backup</button>
+        <label class="btn btn-sm" style="cursor:pointer"><i class="ti ti-cloud-upload"></i>Restore<input type="file" accept=".json" style="display:none" onchange="restoreData(event)"></label>
+      </div>
+    </div>
+
+    <div class="page-content">
+
+      <!-- ── DASHBOARD ─────────────────────── -->
+      <div id="v-dashboard" class="view active">
+        <div class="stats-grid" id="dash-stats"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px" id="dash-bottom">
+          <div>
+            <div class="section-header">
+              <div class="sh-title"><i class="ti ti-users"></i> Recent Clients</div>
+              <button class="btn btn-sm btn-ghost" onclick="navToStr('clients')">View all</button>
+            </div>
+            <div id="dash-clients"></div>
+          </div>
+          <div>
+            <div class="section-header">
+              <div class="sh-title"><i class="ti ti-folders"></i> Active Projects</div>
+              <button class="btn btn-sm btn-ghost" onclick="navToStr('projects')">View all</button>
+            </div>
+            <div id="dash-projects"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CLIENTS ───────────────────────── -->
+      <div id="v-clients" class="view">
+        <div class="section-header" style="margin-bottom:16px">
+          <div class="sh-title"><i class="ti ti-users"></i> Clients</div>
+          <button class="btn btn-primary" onclick="openClientModal()"><i class="ti ti-plus"></i>New client</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Client</th><th>Category</th><th>Projects</th><th>Total billed</th><th>Balance due</th><th></th>
+            </tr></thead>
+            <tbody id="clients-tbody"></tbody>
+          </table>
+          <div id="clients-empty" class="empty-state" style="display:none">
+            <i class="ti ti-users"></i><p>No clients yet</p><small>Add your first client to get started</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── CLIENT DETAIL ─────────────────── -->
+      <div id="v-client-detail" class="view">
+        <div class="back-row">
+          <button class="btn btn-sm btn-ghost" onclick="navToStr('clients')"><i class="ti ti-arrow-left"></i></button>
+          <div>
+            <h2 id="cd-name"></h2>
+            <div class="br-sub" id="cd-meta"></div>
+          </div>
+          <div class="br-actions">
+            <button class="btn btn-sm btn-ghost" onclick="editCurClient()"><i class="ti ti-edit"></i>Edit</button>
+            <button class="btn btn-sm btn-primary" onclick="openProjectModal()"><i class="ti ti-plus"></i>New project</button>
+          </div>
+        </div>
+        <div class="stats-grid" id="cd-stats"></div>
+        <div class="section-header">
+          <div class="sh-title"><i class="ti ti-folders"></i> Projects</div>
+        </div>
+        <div id="cd-projects"></div>
+      </div>
+
+      <!-- ── PROJECTS ──────────────────────── -->
+      <div id="v-projects" class="view">
+        <div class="section-header" style="margin-bottom:16px">
+          <div class="sh-title"><i class="ti ti-folders"></i> All Projects</div>
+          <button class="btn btn-primary" onclick="openProjectModal(null,true)"><i class="ti ti-plus"></i>New project</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr>
+              <th>Project</th><th>Client</th><th>Date</th><th>Amount</th><th>Status</th><th></th>
+            </tr></thead>
+            <tbody id="projects-tbody"></tbody>
+          </table>
+          <div id="projects-empty" class="empty-state" style="display:none">
+            <i class="ti ti-folders"></i><p>No projects yet</p><small>Projects will appear here once added</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── PROJECT DETAIL ────────────────── -->
+      <div id="v-project-detail" class="view">
+        <div class="back-row">
+          <button class="btn btn-sm btn-ghost" id="proj-back-btn"><i class="ti ti-arrow-left"></i></button>
+          <div>
+            <h2 id="prd-name"></h2>
+            <div class="br-sub" id="prd-meta"></div>
+          </div>
+          <div class="br-actions">
+            <button class="btn btn-sm btn-ghost" onclick="editCurProject()"><i class="ti ti-edit"></i>Edit</button>
+            <button class="btn btn-sm btn-primary" onclick="openItemModal()"><i class="ti ti-plus"></i>Add item</button>
+          </div>
+        </div>
+        <div class="stats-grid" id="prd-stats"></div>
+        <div class="section-header">
+          <div class="sh-title"><i class="ti ti-receipt"></i> Line Items</div>
+        </div>
+        <div id="prd-items"></div>
+        <div class="divider"></div>
+        <div class="section-header">
+          <div class="sh-title"><i class="ti ti-cash"></i> Payments</div>
+          <button class="btn btn-sm" onclick="openPaymentModal()"><i class="ti ti-plus"></i>Record payment</button>
+        </div>
+        <div id="prd-payments"></div>
+        <div class="card" style="margin-top:10px" id="prd-balance"></div>
+      </div>
+
+      <!-- ── PAYMENTS ──────────────────────── -->
+      <div id="v-payments" class="view">
+        <div class="section-header" style="margin-bottom:16px">
+          <div class="sh-title"><i class="ti ti-cash"></i> Payment Ledger</div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Date</th><th>Client</th><th>Project</th><th>Amount</th><th>Mode</th><th>Note</th></tr></thead>
+            <tbody id="payments-tbody"></tbody>
+          </table>
+          <div id="payments-empty" class="empty-state" style="display:none">
+            <i class="ti ti-cash"></i><p>No payments recorded</p><small>Payment records appear here</small>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── SETTINGS ──────────────────────── -->
+      <div id="v-settings" class="view">
+        <div class="section-header" style="margin-bottom:16px">
+          <div class="sh-title"><i class="ti ti-settings"></i> Settings</div>
+        </div>
+        <div class="card" style="max-width:500px">
+          <div style="font-size:14px;font-weight:600;margin-bottom:16px;font-family:var(--font-head)">Data Management</div>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg3);border-radius:var(--r-sm);border:1px solid var(--border)">
+              <div>
+                <div style="font-size:13px;font-weight:500">Backup data</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:2px">Download your data as JSON file</div>
+              </div>
+              <button class="btn btn-sm" onclick="backupData()"><i class="ti ti-download"></i>Download</button>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg3);border-radius:var(--r-sm);border:1px solid var(--border)">
+              <div>
+                <div style="font-size:13px;font-weight:500">Restore data</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:2px">Upload a previously downloaded backup</div>
+              </div>
+              <label class="btn btn-sm" style="cursor:pointer"><i class="ti ti-upload"></i>Upload<input type="file" accept=".json" style="display:none" onchange="restoreData(event)"></label>
+            </div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--bg3);border-radius:var(--r-sm);border:1px solid var(--border)">
+              <div>
+                <div style="font-size:13px;font-weight:500">Lock app</div>
+                <div style="font-size:12px;color:var(--text3);margin-top:2px">Return to PIN screen</div>
+              </div>
+              <button class="btn btn-sm btn-danger" onclick="lockApp()"><i class="ti ti-lock"></i>Lock</button>
+            </div>
+          </div>
+          <div class="divider"></div>
+          <div style="font-size:13px;color:var(--text3)">Welcome Graphics Dashboard · v2.0 · Panipat, Haryana</div>
+        </div>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /main -->
+</div><!-- /app -->
+
+<!-- ═══════════════════════════════════════════
+     MODALS
+═══════════════════════════════════════════ -->
+
+<!-- Client Modal -->
+<div class="modal-overlay" id="client-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="cm-title">New Client</h3>
+      <button class="btn btn-sm btn-ghost btn-icon" onclick="closeModal('client-modal')"><i class="ti ti-x" style="font-size:18px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid g2" style="margin-bottom:14px">
+        <div class="field"><label>Client name<span class="req">*</span></label><input id="cm-name" placeholder="e.g. Shiv Mandir Trust"></div>
+        <div class="field"><label>Phone</label><input id="cm-phone" placeholder="98765 43210"></div>
+      </div>
+      <div class="form-grid g2" style="margin-bottom:14px">
+        <div class="field"><label>Category</label>
+          <select id="cm-cat">
+            <option>Religious / Temple</option><option>Wedding / Event</option>
+            <option>Shop / Retail</option><option>School / College</option>
+            <option>Political</option><option>B2B Client</option><option>Individual</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Address</label><input id="cm-addr" placeholder="Optional"></div>
+      </div>
+      <div class="field"><label>Notes</label><textarea id="cm-notes" placeholder="Any extra info…"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('client-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveClient()"><i class="ti ti-check"></i><span id="cm-btn">Add client</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Project Modal -->
+<div class="modal-overlay" id="project-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="pm-title">New Project</h3>
+      <button class="btn btn-sm btn-ghost btn-icon" onclick="closeModal('project-modal')"><i class="ti ti-x" style="font-size:18px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid g2" style="margin-bottom:14px">
+        <div class="field"><label>Project name<span class="req">*</span></label><input id="prm-name" placeholder="e.g. Shiv Mandir Trust Work"></div>
+        <div class="field"><label>Client<span class="req">*</span></label><select id="prm-client"></select></div>
+      </div>
+      <div class="form-grid g2" style="margin-bottom:14px">
+        <div class="field"><label>Date</label><input type="date" id="prm-date"></div>
+        <div class="field"><label>Status</label>
+          <select id="prm-status">
+            <option value="Pending">Pending</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Done">Done</option>
+            <option value="Cancelled">Cancelled</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Notes</label><textarea id="prm-notes" placeholder="Project details, deadline, special instructions…"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('project-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProject()"><i class="ti ti-check"></i><span id="prm-btn">Create project</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Item Modal -->
+<div class="modal-overlay" id="item-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="im-title">Add Line Item</h3>
+      <button class="btn btn-sm btn-ghost btn-icon" onclick="closeModal('item-modal')"><i class="ti ti-x" style="font-size:18px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid g3" style="margin-bottom:14px">
+        <div class="field"><label>Date<span class="req">*</span></label><input type="date" id="im-date"></div>
+        <div class="field"><label>Job type</label>
+          <select id="im-job">
+            <option value="">Select…</option><option>Flex banner</option><option>Visiting card</option>
+            <option>Bill book</option><option>Pamphlet</option><option>Digital print</option>
+            <option>Sticker</option><option>Poster</option><option>Hoarding</option>
+            <option>Photo magazine</option><option>Standee</option><option>Other</option>
+          </select>
+        </div>
+        <div class="field"><label>Status</label>
+          <select id="im-status"><option>Pending</option><option>In Progress</option><option>Done</option><option>Cancelled</option></select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:14px"><label>Description<span class="req">*</span></label><input id="im-desc" placeholder="e.g. 6×4 ft flex banner, red background, Hindi text"></div>
+      <div class="form-grid g3" style="margin-bottom:14px">
+        <div class="field"><label>Qty / Size</label><input id="im-qty" placeholder="e.g. 2 pcs"></div>
+        <div class="field"><label>Rate (₹)</label><input type="number" id="im-rate" placeholder="0" oninput="autoItemAmt()"></div>
+        <div class="field"><label>Amount (₹)<span class="req">*</span></label><input type="number" id="im-amt" placeholder="0"></div>
+      </div>
+      <div class="field"><label>Notes</label><textarea id="im-notes" placeholder="File on WhatsApp, extra instructions…" style="min-height:52px"></textarea></div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('item-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveItem()"><i class="ti ti-check"></i><span id="im-btn">Add item</span></button>
+    </div>
+  </div>
+</div>
+
+<!-- Payment Modal -->
+<div class="modal-overlay" id="payment-modal">
+  <div class="modal" style="max-width:420px">
+    <div class="modal-header">
+      <h3>Record Payment</h3>
+      <button class="btn btn-sm btn-ghost btn-icon" onclick="closeModal('payment-modal')"><i class="ti ti-x" style="font-size:18px"></i></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid g2" style="margin-bottom:14px">
+        <div class="field"><label>Date</label><input type="date" id="paym-date"></div>
+        <div class="field"><label>Amount (₹)<span class="req">*</span></label><input type="number" id="paym-amt" placeholder="0"></div>
+      </div>
+      <div class="form-grid g2" style="margin-bottom:14px">
+        <div class="field"><label>Mode</label>
+          <select id="paym-mode"><option>Cash</option><option>UPI</option><option>Bank transfer</option><option>Cheque</option></select>
+        </div>
+        <div class="field"><label>Note</label><input id="paym-note" placeholder="e.g. 50% advance"></div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('payment-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="savePayment()"><i class="ti ti-check"></i>Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════ -->
+<script>
+// ── DB ─────────────────────────────────────
+const SK = 'wg_v2';
+let DB = JSON.parse(localStorage.getItem(SK) || '{"clients":[],"projects":[],"nid":1}');
+const save = () => localStorage.setItem(SK, JSON.stringify(DB));
+
+// Ensure structure
+if (!DB.clients)  DB.clients  = [];
+if (!DB.projects) DB.projects = [];
+if (!DB.nid)      DB.nid      = 1;
+
+// ── UTILS ──────────────────────────────────
+const td   = () => new Date().toISOString().slice(0,10);
+const fmt  = d => d ? d.split('-').reverse().join('/') : '—';
+const inr  = n => '₹' + Math.round(n||0).toLocaleString('en-IN');
+const initials = n => n.trim().split(/\s+/).slice(0,2).map(w=>w[0].toUpperCase()).join('');
+
+function toast(msg, err=false) {
+  const t = document.getElementById('toast');
+  const ic = t.querySelector('i');
+  document.getElementById('toast-msg').textContent = msg;
+  ic.className = err ? 'ti ti-alert-circle' : 'ti ti-check';
+  t.className = err ? 'err show' : 'show';
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), 2800);
+}
+
+// ── PIN ────────────────────────────────────
+const CORRECT_PIN = '2007';
+let pinEntry = '';
+
+(function buildPinPad() {
+  const grid = document.getElementById('pin-grid');
+  const keys = [1,2,3,4,5,6,7,8,9,'',0,'⌫'];
+  keys.forEach(k => {
+    const btn = document.createElement('button');
+    btn.className = 'pin-key' + (k==='⌫'?' backspace':'') + (k===''?' disabled':'');
+    btn.textContent = k;
+    if (k !== '') btn.onclick = () => pinPress(k);
+    btn.disabled = k === '';
+    grid.appendChild(btn);
+  });
+})();
+
+function pinPress(key) {
+  const errEl = document.getElementById('pin-error');
+  errEl.textContent = '';
+  if (key === '⌫') { pinEntry = pinEntry.slice(0,-1); updateDots(); return; }
+  if (pinEntry.length >= 4) return;
+  pinEntry += key;
+  updateDots();
+  if (pinEntry.length === 4) {
+    if (pinEntry === CORRECT_PIN) {
+      document.getElementById('lock-screen').style.opacity = '0';
+      document.getElementById('lock-screen').style.transition = 'opacity .4s';
+      setTimeout(() => {
+        document.getElementById('lock-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'flex';
+        renderAll();
+      }, 400);
+    } else {
+      document.querySelectorAll('.pin-dot').forEach(d => { d.classList.add('filled','error'); });
+      document.getElementById('pin-grid').style.animation = 'shake .4s ease';
+      errEl.textContent = 'Incorrect PIN — try again';
+      setTimeout(() => {
+        pinEntry = '';
+        updateDots();
+        document.querySelectorAll('.pin-dot').forEach(d => d.classList.remove('filled','error'));
+        document.getElementById('pin-grid').style.animation = '';
+      }, 700);
+    }
+  }
+}
+
+function updateDots() {
+  for(let i=0;i<4;i++) {
+    document.getElementById('d'+i).classList.toggle('filled', i < pinEntry.length);
+  }
+}
+
+function lockApp() {
+  pinEntry = '';
+  updateDots();
+  document.getElementById('pin-error').textContent = '';
+  document.getElementById('app').style.display = 'none';
+  const ls = document.getElementById('lock-screen');
+  ls.style.opacity = '1'; ls.style.display = 'flex';
+}
+
+// ── NAVIGATION ─────────────────────────────
+let curClient = null, curProject = null;
+const VIEWS = ['dashboard','clients','client-detail','projects','project-detail','payments','settings'];
+const TITLES = { dashboard:'Dashboard', clients:'Clients', 'client-detail':'Client', projects:'Projects', 'project-detail':'Project', payments:'Payments', settings:'Settings' };
+
+function navTo(v, el) {
+  VIEWS.forEach(x => document.getElementById('v-'+x).classList.remove('active'));
+  document.getElementById('v-'+v).classList.add('active');
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  if (el) el.classList.add('active');
+  else {
+    const match = document.querySelector(`.nav-item[data-view="${v}"]`);
+    if (match) match.classList.add('active');
+  }
+  document.getElementById('topbar-title').textContent = TITLES[v] || v;
+  closeSidebar();
+  renderView(v);
+}
+
+function navToStr(v) {
+  navTo(v, document.querySelector(`.nav-item[data-view="${v}"]`));
+}
+
+function renderView(v) {
+  if (v === 'dashboard')  renderDashboard();
+  if (v === 'clients')    renderClients();
+  if (v === 'projects')   renderAllProjects();
+  if (v === 'payments')   renderPayments();
+  if (v === 'client-detail') renderClientDetail();
+  if (v === 'project-detail') renderProjectDetail();
+}
+
+// ── SIDEBAR MOBILE ─────────────────────────
+function openSidebar()  { document.getElementById('sidebar').classList.add('open'); document.getElementById('sb-overlay').classList.add('open'); }
+function closeSidebar() { document.getElementById('sidebar').classList.remove('open'); document.getElementById('sb-overlay').classList.remove('open'); }
+
+// ── RENDER ALL ─────────────────────────────
+function renderAll() { updateBadges(); renderDashboard(); }
+
+function updateBadges() {
+  document.getElementById('nb-clients').textContent  = DB.clients.length;
+  document.getElementById('nb-projects').textContent = DB.projects.length;
+}
+
+// ── HELPERS ────────────────────────────────
+function clientProjects(cid) { return DB.projects.filter(p => p.clientId === cid); }
+function projectTotal(proj)  { return (proj.items||[]).reduce((s,i) => i.status!=='Cancelled'?s+(i.amount||0):s, 0); }
+function projectPaid(proj)   { return (proj.payments||[]).reduce((s,p) => s+(p.amount||0), 0); }
+function projectDue(proj)    { return projectTotal(proj) - projectPaid(proj); }
+function clientTotal(c)      { return clientProjects(c.id).reduce((s,p)=>s+projectTotal(p),0); }
+function clientDue(c)        { return clientProjects(c.id).reduce((s,p)=>s+Math.max(0,projectDue(p)),0); }
+
+const statusBadge = s => {
+  const m = { Pending:'badge-pending','In Progress':'badge-progress',Done:'badge-done',Cancelled:'badge-cancelled' };
+  return `<span class="badge ${m[s]||'badge-pending'}">${s}</span>`;
+};
+
+// ── DASHBOARD ──────────────────────────────
+function renderDashboard() {
+  const totRev  = DB.clients.reduce((s,c)=>s+clientTotal(c),0);
+  const totDue  = DB.clients.reduce((s,c)=>s+clientDue(c),0);
+  const active  = DB.projects.filter(p=>p.status==='In Progress'||p.status==='Pending').length;
+  document.getElementById('dash-stats').innerHTML = [
+    ['Total clients',  DB.clients.length,        '',          'ti-users'],
+    ['Total revenue',  inr(totRev),               'color:var(--accent)',  'ti-chart-bar'],
+    ['Amount due',     totDue>0?inr(totDue):'—', totDue>0?'color:var(--red)':'color:var(--green)', 'ti-alert-circle'],
+    ['Active projects',active,                    'color:var(--blue)',  'ti-folders'],
+  ].map(([l,v,style,icon])=>`
+    <div class="stat-card">
+      <div class="sc-label" style="display:flex;align-items:center;gap:5px"><i class="ti ${icon}" style="font-size:13px"></i>${l}</div>
+      <div class="sc-value" style="${style}">${v}</div>
+    </div>`).join('');
+
+  // Recent clients
+  const rc = [...DB.clients].slice(0,5);
+  document.getElementById('dash-clients').innerHTML = rc.length
+    ? rc.map(c=>`<div style="display:flex;align-items:center;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openClientDetail(${c.id})">
+        <div class="c-avatar">${initials(c.name)}</div>
+        <div style="flex:1;min-width:0"><div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${c.name}</div><div style="font-size:11px;color:var(--text3)">${c.category||''}</div></div>
+        <div style="font-size:13px;font-weight:500;color:var(--accent)">${inr(clientTotal(c))}</div>
+      </div>`).join('')
+    : `<div style="font-size:13px;color:var(--text3);padding:12px 0">No clients yet</div>`;
+
+  // Active projects
+  const ap = DB.projects.filter(p=>p.status!=='Done'&&p.status!=='Cancelled').slice(0,5);
+  document.getElementById('dash-projects').innerHTML = ap.length
+    ? ap.map(p=>{
+        const c = DB.clients.find(x=>x.id===p.clientId);
+        const total=projectTotal(p),paid=projectPaid(p),pct=total>0?Math.min(100,Math.round(paid/total*100)):0;
+        return `<div style="padding:10px 0;border-bottom:1px solid var(--border);cursor:pointer" onclick="openProjectDetail(${p.id})">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px">
+            <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:55%">${p.name}</div>
+            ${statusBadge(p.status)}
+          </div>
+          <div style="font-size:11px;color:var(--text3);margin-bottom:5px">${c?c.name:''} · ${inr(total)}</div>
+          <div class="progress-bar"><div class="fill" style="width:${pct}%"></div></div>
+        </div>`}).join('')
+    : `<div style="font-size:13px;color:var(--text3);padding:12px 0">No active projects</div>`;
+}
+
+// ── CLIENTS ────────────────────────────────
+function renderClients() {
+  const tbody = document.getElementById('clients-tbody');
+  const empty = document.getElementById('clients-empty');
+  if (!DB.clients.length) { tbody.innerHTML=''; empty.style.display='flex'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = DB.clients.map(c => {
+    const projs = clientProjects(c.id).length;
+    const total = clientTotal(c), due = clientDue(c);
+    return `<tr>
+      <td><div style="display:flex;align-items:center;gap:10px">
+        <div class="c-avatar">${initials(c.name)}</div>
+        <div><div style="font-weight:500;font-size:13px">${c.name}</div><div style="font-size:11px;color:var(--text3)">${c.phone||''}</div></div>
+      </div></td>
+      <td><span class="badge badge-accent">${c.category||'Other'}</span></td>
+      <td style="color:var(--text2)">${projs}</td>
+      <td style="font-weight:500">${inr(total)}</td>
+      <td style="${due>0?'color:var(--red)':''}">${due>0?inr(due):'—'}</td>
+      <td>
+        <div style="display:flex;gap:4px;justify-content:flex-end">
+          <button class="btn btn-sm btn-ghost" onclick="openClientDetail(${c.id})"><i class="ti ti-eye"></i></button>
+          <button class="btn btn-sm btn-ghost" onclick="editClient(${c.id})"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm btn-ghost btn-danger" onclick="deleteClient(${c.id})"><i class="ti ti-trash"></i></button>
+        </div>
+      </td>
+    </tr>`;
   }).join('');
 }
 
-function saveParty(){
-  const name=document.getElementById('ap-name').value.trim();
-  if(!name){alert('Name zaroori hai');return;}
-  if(EDIT_PARTY){
-    const p=DB.parties.find(x=>x.id===EDIT_PARTY);
-    Object.assign(p,{name,phone:document.getElementById('ap-phone').value.trim(),category:document.getElementById('ap-cat').value,address:document.getElementById('ap-addr').value.trim()});
-    EDIT_PARTY=null;
+// ── CLIENT MODAL ───────────────────────────
+let editClientId = null;
+function openClientModal(id=null) {
+  editClientId = id;
+  document.getElementById('cm-title').textContent = id ? 'Edit Client' : 'New Client';
+  document.getElementById('cm-btn').textContent = id ? 'Save changes' : 'Add client';
+  if (id) {
+    const c = DB.clients.find(x=>x.id===id);
+    document.getElementById('cm-name').value  = c.name||'';
+    document.getElementById('cm-phone').value = c.phone||'';
+    document.getElementById('cm-cat').value   = c.category||'Other';
+    document.getElementById('cm-addr').value  = c.address||'';
+    document.getElementById('cm-notes').value = c.notes||'';
   } else {
-    DB.parties.unshift({id:DB.nid++,name,phone:document.getElementById('ap-phone').value.trim(),category:document.getElementById('ap-cat').value,address:document.getElementById('ap-addr').value.trim(),items:[],payments:[]});
+    ['cm-name','cm-phone','cm-addr','cm-notes'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('cm-cat').value = 'Other';
   }
-  save();go('home');
+  openModal('client-modal');
 }
 
-function editParty(){
-  const p=DB.parties.find(x=>x.id===CUR);if(!p)return;
-  EDIT_PARTY=p.id;
-  ['ap-name','ap-phone','ap-addr'].forEach(id=>document.getElementById(id).value=p[id.split('-')[1]]||'');
-  document.getElementById('ap-cat').value=p.category||'Other';
-  document.getElementById('ap-heading').textContent='Edit party';
-  go('add-party');
+function saveClient() {
+  const name = document.getElementById('cm-name').value.trim();
+  if (!name) { toast('Client name is required',true); return; }
+  if (editClientId) {
+    const c = DB.clients.find(x=>x.id===editClientId);
+    Object.assign(c,{ name, phone:document.getElementById('cm-phone').value.trim(), category:document.getElementById('cm-cat').value, address:document.getElementById('cm-addr').value.trim(), notes:document.getElementById('cm-notes').value.trim() });
+    toast('Client updated');
+  } else {
+    DB.clients.unshift({ id:DB.nid++, name, phone:document.getElementById('cm-phone').value.trim(), category:document.getElementById('cm-cat').value, address:document.getElementById('cm-addr').value.trim(), notes:document.getElementById('cm-notes').value.trim() });
+    toast('Client added');
+  }
+  save(); closeModal('client-modal'); updateBadges();
+  if (document.getElementById('v-clients').classList.contains('active')) renderClients();
+  if (document.getElementById('v-dashboard').classList.contains('active')) renderDashboard();
 }
 
-function openParty(id){CUR=id;go('party');}
+function editClient(id)   { openClientModal(id); }
+function editCurClient()  { openClientModal(curClient); }
 
-function renderParty(){
-  const p=DB.parties.find(x=>x.id===CUR);if(!p)return;
-  document.getElementById('pd-name').textContent=p.name;
-  document.getElementById('pd-meta').textContent=(p.category||'')+(p.phone?' · '+p.phone:'')+(p.address?' · '+p.address:'');
-  const total=p.items.reduce((s,i)=>i.status!=='Cancelled'?s+(i.amount||0):s,0);
-  const paid=p.payments.reduce((s,pm)=>s+(pm.amount||0),0);
-  const due=total-paid;
-  document.getElementById('pd-stats').innerHTML=`
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Items</div>
-      <div style="font-size:20px;font-weight:500">${p.items.length}</div>
-    </div>
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Total bill</div>
-      <div style="font-size:20px;font-weight:500">${inr(total)}</div>
-    </div>
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Received</div>
-      <div style="font-size:20px;font-weight:500;color:#0F6E56">${inr(paid)}</div>
-    </div>
-    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
-      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Balance due</div>
-      <div style="font-size:20px;font-weight:500;color:${due>0?'#A32D2D':'#0F6E56'}">${due>0?inr(due):'Nil ✓'}</div>
-    </div>`;
+function deleteClient(id) {
+  const c = DB.clients.find(x=>x.id===id);
+  if (!confirm(`Delete "${c.name}"? This will also delete all their projects.`)) return;
+  DB.projects = DB.projects.filter(p=>p.clientId!==id);
+  DB.clients  = DB.clients.filter(x=>x.id!==id);
+  save(); updateBadges(); renderClients(); toast('Client deleted');
+}
 
-  const il=document.getElementById('items-list');
-  if(!p.items.length){
-    il.innerHTML=`<div style="text-align:center;padding:1.5rem;color:var(--color-text-secondary);font-size:13px;border:0.5px dashed var(--color-border-tertiary);border-radius:var(--border-radius-lg)">Koi item nahi — Add item karo</div>`;
+// ── CLIENT DETAIL ──────────────────────────
+function openClientDetail(id) {
+  curClient = id;
+  navToStr('client-detail');
+}
+
+function renderClientDetail() {
+  const c = DB.clients.find(x=>x.id===curClient); if(!c) return;
+  document.getElementById('cd-name').textContent = c.name;
+  document.getElementById('cd-meta').textContent = (c.category||'') + (c.phone?' · '+c.phone:'') + (c.address?' · '+c.address:'');
+  const projs = clientProjects(c.id);
+  const total = clientTotal(c), due = clientDue(c);
+  document.getElementById('cd-stats').innerHTML = [
+    ['Projects', projs.length, ''],
+    ['Total billed', inr(total), ''],
+    ['Received', inr(total-due), 'color:var(--green)'],
+    ['Balance due', due>0?inr(due):'Nil ✓', due>0?'color:var(--red)':'color:var(--green)'],
+  ].map(([l,v,s])=>`<div class="stat-card"><div class="sc-label">${l}</div><div class="sc-value" style="${s}">${v}</div></div>`).join('');
+
+  const el = document.getElementById('cd-projects');
+  if (!projs.length) {
+    el.innerHTML = `<div class="empty-state"><i class="ti ti-folders"></i><p>No projects yet</p><small>Add the first project for this client</small></div>`;
+    return;
+  }
+  el.innerHTML = `<div class="table-wrap"><table>
+    <thead><tr><th>Project</th><th>Date</th><th>Total</th><th>Due</th><th>Status</th><th></th></tr></thead>
+    <tbody>${projs.map(p=>`<tr>
+      <td style="font-weight:500;cursor:pointer" onclick="openProjectDetail(${p.id})">${p.name}</td>
+      <td style="color:var(--text2)">${fmt(p.date)}</td>
+      <td>${inr(projectTotal(p))}</td>
+      <td style="${projectDue(p)>0?'color:var(--red)':''}">${projectDue(p)>0?inr(projectDue(p)):'—'}</td>
+      <td>${statusBadge(p.status)}</td>
+      <td><div style="display:flex;gap:4px;justify-content:flex-end">
+        <button class="btn btn-sm btn-ghost" onclick="openProjectDetail(${p.id})"><i class="ti ti-eye"></i></button>
+        <button class="btn btn-sm btn-ghost btn-danger" onclick="deleteProject(${p.id})"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`).join('')}</tbody>
+  </table></div>`;
+}
+
+// ── PROJECTS ───────────────────────────────
+function renderAllProjects() {
+  const tbody = document.getElementById('projects-tbody');
+  const empty = document.getElementById('projects-empty');
+  if (!DB.projects.length) { tbody.innerHTML=''; empty.style.display='flex'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = DB.projects.map(p=>{
+    const c = DB.clients.find(x=>x.id===p.clientId);
+    return `<tr>
+      <td style="font-weight:500;cursor:pointer" onclick="openProjectDetail(${p.id})">${p.name}</td>
+      <td><div style="display:flex;align-items:center;gap:8px"><div class="c-avatar" style="width:26px;height:26px;font-size:10px">${c?initials(c.name):'?'}</div>${c?c.name:'Unknown'}</div></td>
+      <td style="color:var(--text2)">${fmt(p.date)}</td>
+      <td style="font-weight:500">${inr(projectTotal(p))}</td>
+      <td>${statusBadge(p.status)}</td>
+      <td><div style="display:flex;gap:4px;justify-content:flex-end">
+        <button class="btn btn-sm btn-ghost" onclick="openProjectDetail(${p.id})"><i class="ti ti-eye"></i></button>
+        <button class="btn btn-sm btn-ghost" onclick="editProject(${p.id})"><i class="ti ti-edit"></i></button>
+        <button class="btn btn-sm btn-ghost btn-danger" onclick="deleteProject(${p.id})"><i class="ti ti-trash"></i></button>
+      </div></td>
+    </tr>`;
+  }).join('');
+}
+
+// ── PROJECT MODAL ──────────────────────────
+let editProjectId = null;
+function openProjectModal(id=null, fromProjects=false) {
+  editProjectId = id;
+  document.getElementById('pm-title').textContent = id ? 'Edit Project' : 'New Project';
+  document.getElementById('prm-btn').textContent  = id ? 'Save changes' : 'Create project';
+  // Populate client dropdown
+  const sel = document.getElementById('prm-client');
+  sel.innerHTML = DB.clients.length
+    ? DB.clients.map(c=>`<option value="${c.id}">${c.name}</option>`).join('')
+    : '<option value="">— Add a client first —</option>';
+  if (!DB.clients.length) { toast('Add a client first',true); return; }
+  if (id) {
+    const p = DB.projects.find(x=>x.id===id);
+    document.getElementById('prm-name').value    = p.name||'';
+    document.getElementById('prm-client').value  = p.clientId;
+    document.getElementById('prm-date').value    = p.date||td();
+    document.getElementById('prm-status').value  = p.status||'Pending';
+    document.getElementById('prm-notes').value   = p.notes||'';
   } else {
-    il.innerHTML=p.items.map(it=>`
-      <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:12px">
-        <div style="flex:1;min-width:0">
-          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
-            <span style="font-weight:500;font-size:13px">${it.desc}</span>
-            ${statusBadge(it.status)}
-            ${it.job?`<span class="badge b-teal">${it.job}</span>`:''}
-          </div>
-          <div style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:12px;flex-wrap:wrap">
-            <span><i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>${fmt(it.date)}</span>
-            ${it.qty?`<span><i class="ti ti-stack" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>${it.qty}</span>`:''}
-            ${it.notes?`<span style="color:var(--color-text-secondary)">${it.notes}</span>`:''}
-          </div>
-        </div>
-        <div style="text-align:right;flex-shrink:0">
-          <div style="font-size:15px;font-weight:500">${inr(it.amount)}</div>
-          ${it.rate?`<div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">@${inr(it.rate)}</div>`:''}
-        </div>
-        <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
-          <button class="btn btn-sm btn-ghost" style="padding:4px 6px" onclick="editItem(${it.id})"><i class="ti ti-edit" style="font-size:14px" aria-hidden="true"></i></button>
-          <button class="btn btn-sm btn-ghost" style="padding:4px 6px" onclick="delItem(${it.id})"><i class="ti ti-trash" style="font-size:14px;color:#E24B4A" aria-hidden="true"></i></button>
-        </div>
-      </div>`).join('');
+    document.getElementById('prm-name').value  = '';
+    document.getElementById('prm-notes').value = '';
+    document.getElementById('prm-date').value  = td();
+    document.getElementById('prm-status').value= 'Pending';
+    if (curClient) sel.value = curClient;
+  }
+  openModal('project-modal');
+}
+
+function saveProject() {
+  const name = document.getElementById('prm-name').value.trim();
+  const cid  = parseInt(document.getElementById('prm-client').value);
+  if (!name) { toast('Project name required',true); return; }
+  if (!cid)  { toast('Select a client',true); return; }
+  if (editProjectId) {
+    const p = DB.projects.find(x=>x.id===editProjectId);
+    Object.assign(p,{ name, clientId:cid, date:document.getElementById('prm-date').value, status:document.getElementById('prm-status').value, notes:document.getElementById('prm-notes').value.trim() });
+    toast('Project updated');
+  } else {
+    DB.projects.unshift({ id:DB.nid++, name, clientId:cid, date:document.getElementById('prm-date').value||td(), status:document.getElementById('prm-status').value||'Pending', notes:document.getElementById('prm-notes').value.trim(), items:[], payments:[] });
+    toast('Project created');
+  }
+  save(); closeModal('project-modal'); updateBadges();
+  if (document.getElementById('v-clients').classList.contains('active')) renderClients();
+  if (document.getElementById('v-client-detail').classList.contains('active')) renderClientDetail();
+  if (document.getElementById('v-projects').classList.contains('active')) renderAllProjects();
+  if (document.getElementById('v-dashboard').classList.contains('active')) renderDashboard();
+}
+
+function editProject(id)    { openProjectModal(id); }
+function editCurProject()   { openProjectModal(curProject); }
+
+function deleteProject(id) {
+  const p = DB.projects.find(x=>x.id===id);
+  if (!confirm(`Delete project "${p.name}"?`)) return;
+  DB.projects = DB.projects.filter(x=>x.id!==id);
+  save(); updateBadges();
+  renderAllProjects(); renderClientDetail(); renderDashboard();
+  toast('Project deleted');
+}
+
+// ── PROJECT DETAIL ─────────────────────────
+function openProjectDetail(id) {
+  curProject = id;
+  const p = DB.projects.find(x=>x.id===id);
+  const fromClient = p && DB.clients.find(x=>x.id===p.clientId);
+  const backBtn = document.getElementById('proj-back-btn');
+  backBtn.onclick = fromClient
+    ? () => { curClient=fromClient.id; navToStr('client-detail'); }
+    : () => navToStr('projects');
+  navToStr('project-detail');
+}
+
+function renderProjectDetail() {
+  const p = DB.projects.find(x=>x.id===curProject); if(!p) return;
+  const c = DB.clients.find(x=>x.id===p.clientId);
+  document.getElementById('prd-name').textContent = p.name;
+  document.getElementById('prd-meta').textContent = (c?c.name:'') + ' · ' + fmt(p.date) + (p.notes?' · '+p.notes:'');
+  const total=projectTotal(p), paid=projectPaid(p), due=projectDue(p);
+  document.getElementById('prd-stats').innerHTML = [
+    ['Items', (p.items||[]).length, ''],
+    ['Total bill', inr(total), ''],
+    ['Received', inr(paid), 'color:var(--green)'],
+    ['Balance due', due>0?inr(due):'Nil ✓', due>0?'color:var(--red)':'color:var(--green)'],
+  ].map(([l,v,s])=>`<div class="stat-card"><div class="sc-label">${l}</div><div class="sc-value" style="${s}">${v}</div></div>`).join('');
+
+  // Items
+  const items = p.items||[];
+  const il = document.getElementById('prd-items');
+  if (!items.length) {
+    il.innerHTML = `<div class="empty-state"><i class="ti ti-receipt"></i><p>No items yet</p><small>Add line items for this project</small></div>`;
+  } else {
+    il.innerHTML = `<div class="table-wrap"><table>
+      <thead><tr><th>Date</th><th>Description</th><th>Job</th><th>Qty/Size</th><th>Amount</th><th>Status</th><th></th></tr></thead>
+      <tbody>${items.map(it=>`<tr>
+        <td style="color:var(--text3)">${fmt(it.date)}</td>
+        <td><div style="font-weight:500">${it.desc}</div>${it.notes?`<div style="font-size:11px;color:var(--text3)">${it.notes}</div>`:''}</td>
+        <td>${it.job?`<span class="badge badge-accent">${it.job}</span>`:''}</td>
+        <td style="color:var(--text2)">${it.qty||'—'}</td>
+        <td style="font-weight:500">${inr(it.amount)}</td>
+        <td>${statusBadge(it.status)}</td>
+        <td><div style="display:flex;gap:4px;justify-content:flex-end">
+          <button class="btn btn-sm btn-ghost" onclick="editItem(${it.id})"><i class="ti ti-edit"></i></button>
+          <button class="btn btn-sm btn-ghost btn-danger" onclick="deleteItem(${it.id})"><i class="ti ti-trash"></i></button>
+        </div></td>
+      </tr>`).join('')}</tbody>
+    </table></div>`;
   }
 
-  const pl=document.getElementById('pmts-list');
-  if(!p.payments.length){
-    pl.innerHTML=`<div style="font-size:13px;color:var(--color-text-secondary);padding:8px 0">Koi payment record nahi</div>`;
-  } else {
-    pl.innerHTML=p.payments.map(pm=>`
-      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;display:flex;align-items:center;gap:10px">
-        <i class="ti ti-circle-check" style="font-size:18px;color:#1D9E75;flex-shrink:0" aria-hidden="true"></i>
-        <div style="flex:1">
-          <div style="font-size:13px;font-weight:500;color:#0F6E56">${inr(pm.amount)}</div>
-          <div style="font-size:12px;color:var(--color-text-secondary)">${fmt(pm.date)} · ${pm.mode}${pm.note?' · '+pm.note:''}</div>
-        </div>
-        <button class="btn btn-sm btn-ghost" style="padding:4px 6px" onclick="delPayment(${pm.id})"><i class="ti ti-trash" style="font-size:14px;color:#E24B4A" aria-hidden="true"></i></button>
-      </div>`).join('');
-  }
+  // Payments
+  const payments = p.payments||[];
+  const pl = document.getElementById('prd-payments');
+  pl.innerHTML = !payments.length
+    ? `<p style="font-size:13px;color:var(--text3);padding:4px 0 12px">No payments recorded yet</p>`
+    : `<div style="display:flex;flex-direction:column;gap:6px;margin-bottom:10px">${payments.map(pm=>`
+        <div style="display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--green-bg);border:1px solid rgba(74,222,154,.15);border-radius:var(--r-sm)">
+          <i class="ti ti-circle-check" style="color:var(--green);font-size:18px;flex-shrink:0"></i>
+          <div style="flex:1">
+            <div style="font-size:13px;font-weight:600;color:var(--green)">${inr(pm.amount)}</div>
+            <div style="font-size:11px;color:var(--text3)">${fmt(pm.date)} · ${pm.mode}${pm.note?' · '+pm.note:''}</div>
+          </div>
+          <button class="btn btn-sm btn-ghost btn-danger" onclick="deletePayment(${pm.id})"><i class="ti ti-trash"></i></button>
+        </div>`).join('')}</div>`;
 
-  document.getElementById('balance-card').innerHTML=`
-    <div style="display:flex;flex-direction:column;gap:10px">
-      <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--color-text-secondary)">Total bill</span><span style="font-weight:500">${inr(total)}</span></div>
-      <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--color-text-secondary)">Received</span><span style="font-weight:500;color:#0F6E56">− ${inr(paid)}</span></div>
-      <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:10px;display:flex;justify-content:space-between">
-        <span style="font-size:14px;font-weight:500">Balance due</span>
-        <span style="font-size:17px;font-weight:500;color:${due>0?'#A32D2D':'#0F6E56'}">${due>0?inr(due):'₹0 — Settled ✓'}</span>
+  // Balance
+  document.getElementById('prd-balance').innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total bill</span><span style="font-weight:500">${inr(total)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--text2)">Total received</span><span style="font-weight:500;color:var(--green)">− ${inr(paid)}</span></div>
+      <div style="border-top:1px solid var(--border);padding-top:10px;display:flex;justify-content:space-between">
+        <span style="font-size:14px;font-weight:600">Balance due</span>
+        <span style="font-size:18px;font-weight:700;${due>0?'color:var(--red)':'color:var(--green)'}">${due>0?inr(due):'₹0 — Settled ✓'}</span>
       </div>
     </div>`;
 }
 
-function startAddItem(id){
-  EDIT_ITEM=id||null;
-  document.getElementById('ai-heading').textContent=id?'Edit item':'Add item';
-  if(id){
-    const p=DB.parties.find(x=>x.id===CUR);
-    const it=p.items.find(x=>x.id===id);
-    document.getElementById('ai-date').value=it.date||td();
-    document.getElementById('ai-job').value=it.job||'';
-    document.getElementById('ai-desc').value=it.desc||'';
-    document.getElementById('ai-qty').value=it.qty||'';
-    document.getElementById('ai-rate').value=it.rate||'';
-    document.getElementById('ai-amt').value=it.amount||'';
-    document.getElementById('ai-status').value=it.status||'Pending';
-    document.getElementById('ai-notes').value=it.notes||'';
+// ── ITEMS ──────────────────────────────────
+let editItemId = null;
+function openItemModal(id=null) {
+  editItemId = id;
+  document.getElementById('im-title').textContent = id ? 'Edit Item' : 'Add Line Item';
+  document.getElementById('im-btn').textContent   = id ? 'Save changes' : 'Add item';
+  if (id) {
+    const p  = DB.projects.find(x=>x.id===curProject);
+    const it = (p.items||[]).find(x=>x.id===id);
+    document.getElementById('im-date').value   = it.date||td();
+    document.getElementById('im-job').value    = it.job||'';
+    document.getElementById('im-desc').value   = it.desc||'';
+    document.getElementById('im-qty').value    = it.qty||'';
+    document.getElementById('im-rate').value   = it.rate||'';
+    document.getElementById('im-amt').value    = it.amount||'';
+    document.getElementById('im-status').value = it.status||'Pending';
+    document.getElementById('im-notes').value  = it.notes||'';
   } else {
-    document.getElementById('ai-date').value=td();
-    ['ai-job','ai-qty','ai-rate','ai-amt','ai-notes'].forEach(x=>document.getElementById(x).value='');
-    document.getElementById('ai-desc').value='';
-    document.getElementById('ai-status').value='Pending';
+    document.getElementById('im-date').value   = td();
+    document.getElementById('im-desc').value   = '';
+    document.getElementById('im-notes').value  = '';
+    ['im-job','im-qty','im-rate','im-amt'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('im-status').value = 'Pending';
   }
-  go('add-item');
+  openModal('item-modal');
 }
-function editItem(id){startAddItem(id);}
-function autoAmt(){
-  const r=parseFloat(document.getElementById('ai-rate').value)||0;
-  if(r)document.getElementById('ai-amt').value=Math.round(r);
+
+function editItem(id) { openItemModal(id); }
+function autoItemAmt() {
+  const r = parseFloat(document.getElementById('im-rate').value)||0;
+  if(r) document.getElementById('im-amt').value = Math.round(r);
 }
-function saveItem(){
-  const desc=document.getElementById('ai-desc').value.trim();
-  if(!desc){alert('Description daalo');return;}
-  const p=DB.parties.find(x=>x.id===CUR);
-  const it={id:EDIT_ITEM||DB.nid++,date:document.getElementById('ai-date').value||td(),job:document.getElementById('ai-job').value,desc,qty:document.getElementById('ai-qty').value.trim(),rate:parseFloat(document.getElementById('ai-rate').value)||0,amount:parseFloat(document.getElementById('ai-amt').value)||0,status:document.getElementById('ai-status').value,notes:document.getElementById('ai-notes').value.trim()};
-  if(EDIT_ITEM){const i=p.items.findIndex(x=>x.id===EDIT_ITEM);if(i>-1)p.items[i]=it;}
+
+function saveItem() {
+  const desc = document.getElementById('im-desc').value.trim();
+  if (!desc) { toast('Description required',true); return; }
+  const p = DB.projects.find(x=>x.id===curProject);
+  if (!p.items) p.items = [];
+  const it = {
+    id: editItemId||DB.nid++,
+    date: document.getElementById('im-date').value||td(),
+    job: document.getElementById('im-job').value,
+    desc, qty: document.getElementById('im-qty').value.trim(),
+    rate: parseFloat(document.getElementById('im-rate').value)||0,
+    amount: parseFloat(document.getElementById('im-amt').value)||0,
+    status: document.getElementById('im-status').value,
+    notes: document.getElementById('im-notes').value.trim()
+  };
+  if (editItemId) { const i=p.items.findIndex(x=>x.id===editItemId); if(i>-1) p.items[i]=it; }
   else p.items.push(it);
-  EDIT_ITEM=null;save();go('party');
+  editItemId=null; save(); closeModal('item-modal'); toast('Item saved'); renderProjectDetail();
 }
-function delItem(id){if(!confirm('Delete karein?'))return;const p=DB.parties.find(x=>x.id===CUR);p.items=p.items.filter(x=>x.id!==id);save();renderParty();}
 
-function showPmtForm(){document.getElementById('pmt-form').style.display='block';document.getElementById('pm-date').value=td();document.getElementById('pm-amt').value='';document.getElementById('pm-note').value='';}
-function savePayment(){
-  const amt=parseFloat(document.getElementById('pm-amt').value)||0;
-  if(!amt){alert('Amount daalo');return;}
-  const p=DB.parties.find(x=>x.id===CUR);
-  p.payments.push({id:DB.nid++,date:document.getElementById('pm-date').value||td(),amount:amt,mode:document.getElementById('pm-mode').value,note:document.getElementById('pm-note').value.trim()});
-  document.getElementById('pmt-form').style.display='none';save();renderParty();
+function deleteItem(id) {
+  if (!confirm('Delete this item?')) return;
+  const p = DB.projects.find(x=>x.id===curProject);
+  p.items = p.items.filter(x=>x.id!==id);
+  save(); toast('Item deleted'); renderProjectDetail();
 }
-function delPayment(id){if(!confirm('Delete karein?'))return;const p=DB.parties.find(x=>x.id===CUR);p.payments=p.payments.filter(x=>x.id!==id);save();renderParty();}
 
-go('home');
+// ── PAYMENTS ───────────────────────────────
+function openPaymentModal() { 
+  document.getElementById('paym-date').value = td();
+  document.getElementById('paym-amt').value  = '';
+  document.getElementById('paym-note').value = '';
+  openModal('payment-modal');
+}
+
+function savePayment() {
+  const amt = parseFloat(document.getElementById('paym-amt').value)||0;
+  if (!amt) { toast('Enter an amount',true); return; }
+  const p = DB.projects.find(x=>x.id===curProject);
+  if (!p.payments) p.payments = [];
+  p.payments.push({ id:DB.nid++, date:document.getElementById('paym-date').value||td(), amount:amt, mode:document.getElementById('paym-mode').value, note:document.getElementById('paym-note').value.trim() });
+  save(); closeModal('payment-modal'); toast('Payment recorded'); renderProjectDetail();
+}
+
+function deletePayment(id) {
+  if (!confirm('Delete this payment record?')) return;
+  const p = DB.projects.find(x=>x.id===curProject);
+  p.payments = p.payments.filter(x=>x.id!==id);
+  save(); toast('Deleted'); renderProjectDetail();
+}
+
+function renderPayments() {
+  const allPmts = [];
+  DB.projects.forEach(p=>{
+    const c = DB.clients.find(x=>x.id===p.clientId);
+    (p.payments||[]).forEach(pm=>{
+      allPmts.push({...pm, projectName:p.name, clientName:c?c.name:'Unknown', projId:p.id});
+    });
+  });
+  allPmts.sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  const tbody = document.getElementById('payments-tbody');
+  const empty = document.getElementById('payments-empty');
+  if (!allPmts.length) { tbody.innerHTML=''; empty.style.display='flex'; return; }
+  empty.style.display='none';
+  tbody.innerHTML = allPmts.map(pm=>`<tr>
+    <td style="color:var(--text2)">${fmt(pm.date)}</td>
+    <td>${pm.clientName}</td>
+    <td style="cursor:pointer;color:var(--accent)" onclick="openProjectDetail(${pm.projId})">${pm.projectName}</td>
+    <td style="font-weight:600;color:var(--green)">${inr(pm.amount)}</td>
+    <td><span class="badge badge-accent">${pm.mode}</span></td>
+    <td style="color:var(--text3)">${pm.note||'—'}</td>
+  </tr>`).join('');
+}
+
+// ── BACKUP / RESTORE ───────────────────────
+function backupData() {
+  const blob = new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = `WG_Backup_${td()}.json`;
+  a.click(); toast('Backup downloaded');
+}
+
+function restoreData(e) {
+  const file = e.target.files[0]; if(!file) return;
+  const reader = new FileReader();
+  reader.onload = ev => {
+    try {
+      const d = JSON.parse(ev.target.result);
+      if (!d.clients && !d.parties) { toast('Invalid backup file',true); return; }
+      if (!confirm(`Restore this backup?\n${(d.clients||d.parties||[]).length} clients · ${(d.projects||[]).length} projects\n\nThis will replace all current data.`)) return;
+      // Migration from old format
+      if (d.parties && !d.clients) {
+        d.clients = d.parties.map(p=>({...p, category:p.category||'Other'}));
+        d.projects = [];
+        d.parties.forEach(party=>{
+          if (party.items && party.items.length) {
+            d.projects.push({ id:d.nid++, name:party.name+' — Work', clientId:party.id, date:party.items[0]?.date||td(), status:'Done', notes:'Migrated from old format', items:party.items, payments:party.payments||[] });
+          }
+        });
+        delete d.parties;
+      }
+      DB = d; save(); renderAll(); navToStr('dashboard'); toast('Data restored successfully');
+    } catch { toast('Could not read file',true); }
+  };
+  reader.readAsText(file);
+  e.target.value='';
+}
+
+// ── MODAL HELPERS ──────────────────────────
+function openModal(id)  { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+document.querySelectorAll('.modal-overlay').forEach(el=>{
+  el.addEventListener('click', e=>{ if(e.target===el) el.classList.remove('open'); });
+});
+
+// ── INIT ───────────────────────────────────
+renderAll();
 </script>
-
-<style>
-body{padding:20px;max-width:1100px;margin:auto;background:#f7f9fc}
-.card,#home-list>div,#items-list>div{border-radius:22px!important;box-shadow:0 8px 25px rgba(0,0,0,.06)!important}
-.fab{position:fixed;bottom:25px;right:25px;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1D9E75;color:white;font-size:30px;cursor:pointer}
-</style>
-<script>
-function deleteParty(){
-const v=prompt("Type DELETE");
-if(v!=="DELETE")return;
-DB.parties=DB.parties.filter(x=>x.id!==CUR);
-save();go('home');
-}
-</script>
-<div class='fab' onclick="go('add-party')">+</div>
-
-<script>
-document.body.insertAdjacentHTML("afterbegin",`
-<div id="lockScreen"
-style="
-position:fixed;
-inset:0;
-background:#111827;
-display:flex;
-flex-direction:column;
-justify-content:center;
-align-items:center;
-z-index:99999;
-color:white">
-
-<h1>Welcome Graphics 🔒</h1>
-
-<input id="pinInput"
-type="password"
-placeholder="Enter PIN"
-style="
-padding:12px;
-margin:15px;
-border-radius:12px;
-width:220px">
-
-<button onclick="unlock()"
-style="
-padding:10px 20px;
-background:#1D9E75;
-border:none;
-color:white;
-border-radius:12px">
-
-Unlock
-
-</button>
-
-</div>
-`);
-
-function unlock(){
-
-if(
-document.getElementById(
-"pinInput"
-).value==="4839"
-){
-
-document.getElementById(
-"lockScreen"
-).style.display="none";
-
-}else{
-
-alert("Wrong PIN");
-
-}
-
-}
-</script>
+</body>
+</html>
