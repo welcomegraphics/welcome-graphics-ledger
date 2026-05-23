@@ -1,0 +1,386 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-sans);color:var(--color-text-primary)}
+.view{display:none}
+.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+input,select,textarea{font-family:var(--font-sans);font-size:13px;padding:8px 10px;border:0.5px solid var(--color-border-secondary);border-radius:var(--border-radius-md);background:var(--color-background-secondary);color:var(--color-text-primary);width:100%;outline:none}
+input:focus,select:focus,textarea:focus{border-color:var(--color-border-primary)}
+textarea{resize:vertical;min-height:56px}
+button{font-family:var(--font-sans);cursor:pointer}
+.btn{font-size:13px;padding:7px 14px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-primary);color:var(--color-text-primary);display:inline-flex;align-items:center;gap:5px}
+.btn:hover{background:var(--color-background-secondary)}
+.btn-primary{background:#1D9E75;border-color:#0F6E56;color:#fff}
+.btn-primary:hover{background:#0F6E56}
+.btn-sm{font-size:12px;padding:5px 10px}
+.btn-ghost{border-color:transparent;background:transparent;color:var(--color-text-secondary)}
+.btn-ghost:hover{background:var(--color-background-secondary);color:var(--color-text-primary)}
+.label{font-size:12px;color:var(--color-text-secondary);margin-bottom:4px;display:block}
+.field{display:flex;flex-direction:column;gap:3px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+.card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1rem 1.25rem}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:1rem 0}
+.badge{display:inline-flex;align-items:center;font-size:11px;font-weight:500;padding:2px 8px;border-radius:var(--border-radius-md)}
+.b-amber{background:#FAEEDA;color:#633806}
+.b-blue{background:#E6F1FB;color:#0C447C}
+.b-green{background:#EAF3DE;color:#27500A}
+.b-gray{background:#F1EFE8;color:#444441}
+.b-teal{background:#E1F5EE;color:#085041}
+.b-red{background:#FCEBEB;color:#791F1F}
+</style>
+<h2 class="sr-only">Welcome Graphics party-wise ledger — manage client jobs and payments</h2>
+
+<div id="v-home" class="view">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0 1rem;border-bottom:0.5px solid var(--color-border-tertiary);margin-bottom:1.25rem">
+    <div>
+      <div style="font-size:18px;font-weight:500;display:flex;align-items:center;gap:8px"><i class="ti ti-notebook" style="font-size:20px;color:#1D9E75" aria-hidden="true"></i>Party Ledger</div>
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px">Welcome Graphics · Panipat</div>
+    </div>
+    <button class="btn btn-primary" onclick="go('add-party')"><i class="ti ti-plus" aria-hidden="true"></i>New party</button>
+  </div>
+  <div id="home-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.25rem"></div>
+  <div id="home-list"></div>
+  <div id="home-empty" style="display:none;text-align:center;padding:3rem 0;color:var(--color-text-secondary)">
+    <i class="ti ti-users" style="font-size:36px;display:block;margin-bottom:10px;opacity:0.4" aria-hidden="true"></i>
+    <div style="font-size:14px;font-weight:500">Koi party nahi abhi</div>
+    <div style="font-size:13px;margin-top:4px;opacity:0.7">New party button se pehli entry karo</div>
+  </div>
+</div>
+
+<div id="v-add-party" class="view">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
+    <button class="btn btn-sm btn-ghost" onclick="go('home')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+    <div style="font-size:16px;font-weight:500" id="ap-heading">New party</div>
+  </div>
+  <div class="card">
+    <div class="g2" style="margin-bottom:12px">
+      <div class="field"><label class="label">Party / client name <span style="color:#E24B4A">*</span></label><input id="ap-name" placeholder="e.g. Shiv Mandir Trust"></div>
+      <div class="field"><label class="label">Phone</label><input id="ap-phone" placeholder="e.g. 98765 43210"></div>
+    </div>
+    <div class="g2">
+      <div class="field"><label class="label">Category</label>
+        <select id="ap-cat">
+          <option>Religious / Temple</option><option>Wedding / Event</option><option>Shop / Retail</option>
+          <option>School / College</option><option>Political</option><option>B2B Client</option><option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label class="label">Address</label><input id="ap-addr" placeholder="Optional"></div>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn btn-primary" onclick="saveParty()"><i class="ti ti-check" aria-hidden="true"></i>Save</button>
+      <button class="btn" onclick="go('home')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<div id="v-party" class="view">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap">
+    <button class="btn btn-sm btn-ghost" onclick="go('home')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+    <div>
+      <div style="font-size:16px;font-weight:500" id="pd-name"></div>
+      <div style="font-size:12px;color:var(--color-text-secondary)" id="pd-meta"></div>
+    </div>
+    <div style="margin-left:auto;display:flex;gap:6px">
+      <button class="btn btn-sm btn-ghost" onclick="editParty()"><i class="ti ti-edit" aria-hidden="true"></i>Edit</button>
+      <button class="btn btn-sm btn-primary" onclick="startAddItem()"><i class="ti ti-plus" aria-hidden="true"></i>Add item</button>
+    </div>
+  </div>
+  <div id="pd-stats" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:1.25rem"></div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px"><i class="ti ti-receipt" style="font-size:15px" aria-hidden="true"></i>Items</div>
+  </div>
+  <div id="items-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem"></div>
+
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px">
+    <div style="font-size:13px;font-weight:500;color:var(--color-text-secondary);display:flex;align-items:center;gap:6px"><i class="ti ti-cash" style="font-size:15px" aria-hidden="true"></i>Payments received</div>
+    <button class="btn btn-sm" onclick="showPmtForm()"><i class="ti ti-plus" aria-hidden="true"></i>Add</button>
+  </div>
+  <div id="pmt-form" style="display:none;margin-bottom:10px">
+    <div class="card" style="border:0.5px solid var(--color-border-secondary)">
+      <div class="g3" style="margin-bottom:10px">
+        <div class="field"><label class="label">Date</label><input type="date" id="pm-date"></div>
+        <div class="field"><label class="label">Amount (₹)</label><input type="number" id="pm-amt" placeholder="0"></div>
+        <div class="field"><label class="label">Mode</label><select id="pm-mode"><option>Cash</option><option>UPI</option><option>Bank transfer</option><option>Cheque</option></select></div>
+      </div>
+      <div class="field" style="margin-bottom:10px"><label class="label">Note</label><input id="pm-note" placeholder="e.g. 50% advance"></div>
+      <div style="display:flex;gap:8px">
+        <button class="btn btn-sm btn-primary" onclick="savePayment()"><i class="ti ti-check" aria-hidden="true"></i>Save</button>
+        <button class="btn btn-sm" onclick="document.getElementById('pmt-form').style.display='none'">Cancel</button>
+      </div>
+    </div>
+  </div>
+  <div id="pmts-list" style="display:flex;flex-direction:column;gap:6px;margin-bottom:1.25rem"></div>
+
+  <div class="card" style="background:var(--color-background-secondary);border:none" id="balance-card"></div>
+</div>
+
+<div id="v-add-item" class="view">
+  <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem">
+    <button class="btn btn-sm btn-ghost" onclick="go('party')"><i class="ti ti-arrow-left" aria-hidden="true"></i></button>
+    <div style="font-size:16px;font-weight:500" id="ai-heading">Add item</div>
+  </div>
+  <div class="card">
+    <div class="g3" style="margin-bottom:12px">
+      <div class="field"><label class="label">Date <span style="color:#E24B4A">*</span></label><input type="date" id="ai-date"></div>
+      <div class="field"><label class="label">Job type</label>
+        <select id="ai-job">
+          <option value="">Select…</option><option>Flex banner</option><option>Visiting card</option>
+          <option>Bill book</option><option>Pamphlet</option><option>Digital print</option>
+          <option>Sticker</option><option>Poster</option><option>Hoarding</option>
+          <option>Photo magazine</option><option>Standee</option><option>Other</option>
+        </select>
+      </div>
+      <div class="field"><label class="label">Status</label>
+        <select id="ai-status"><option>Pending</option><option>In progress</option><option>Done</option><option>Cancelled</option></select>
+      </div>
+    </div>
+    <div class="field" style="margin-bottom:12px"><label class="label">Description <span style="color:#E24B4A">*</span></label><input id="ai-desc" placeholder="e.g. 6×4 ft flex banner, red background, Hindi text"></div>
+    <div class="g3" style="margin-bottom:12px">
+      <div class="field"><label class="label">Qty / Size</label><input id="ai-qty" placeholder="e.g. 2 pcs"></div>
+      <div class="field"><label class="label">Rate (₹)</label><input type="number" id="ai-rate" placeholder="0" oninput="autoAmt()"></div>
+      <div class="field"><label class="label">Amount (₹)</label><input type="number" id="ai-amt" placeholder="0"></div>
+    </div>
+    <div class="field" style="margin-bottom:14px"><label class="label">Notes</label><textarea id="ai-notes" placeholder="Extra details, file info, special instructions…"></textarea></div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-primary" onclick="saveItem()"><i class="ti ti-check" aria-hidden="true"></i>Save item</button>
+      <button class="btn" onclick="go('party')">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const SK='wg_pl_v3';
+let DB=JSON.parse(localStorage.getItem(SK)||'{"parties":[],"nid":1}');
+let CUR=null,EDIT_ITEM=null,EDIT_PARTY=null;
+const save=()=>localStorage.setItem(SK,JSON.stringify(DB));
+const td=()=>new Date().toISOString().slice(0,10);
+const fmt=d=>d?d.split('-').reverse().join('/'):'—';
+const inr=n=>('₹'+(Math.round(n||0)).toLocaleString('en-IN'));
+const statusBadge=s=>{const m={Pending:'b-amber','In progress':'b-blue',Done:'b-green',Cancelled:'b-gray'};return`<span class="badge ${m[s]||'b-gray'}">${s}</span>`};
+const initials=n=>n.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+const catIcon={Religious:'ti-om',Wedding:'ti-confetti',Shop:'ti-building-store',School:'ti-school',Political:'ti-flag',B2B:'ti-building',Other:'ti-user'};
+const getCatIcon=c=>{const k=Object.keys(catIcon).find(k=>c&&c.includes(k));return catIcon[k||'Other']};
+
+function go(v){
+  document.querySelectorAll('.view').forEach(el=>el.style.display='none');
+  document.getElementById('v-'+v).style.display='block';
+  if(v==='home')renderHome();
+  if(v==='party')renderParty();
+}
+
+function renderHome(){
+  const ps=DB.parties;
+  const totRev=ps.reduce((s,p)=>s+p.items.reduce((a,i)=>i.status!=='Cancelled'?a+(i.amount||0):a,0),0);
+  const totDue=ps.reduce((s,p)=>{const t=p.items.reduce((a,i)=>i.status!=='Cancelled'?a+(i.amount||0):a,0);const pd=p.payments.reduce((a,pm)=>a+(pm.amount||0),0);return s+Math.max(0,t-pd);},0);
+  const open=ps.filter(p=>p.items.some(i=>i.status==='Pending'||i.status==='In progress')).length;
+  document.getElementById('home-stats').innerHTML=`
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Total parties</div>
+      <div style="font-size:22px;font-weight:500">${ps.length}</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Total revenue</div>
+      <div style="font-size:22px;font-weight:500;color:#0F6E56">${inr(totRev)}</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Amount due</div>
+      <div style="font-size:22px;font-weight:500;color:${totDue>0?'#A32D2D':'#0F6E56'}">${totDue>0?inr(totDue):'Nil'}</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:12px 14px">
+      <div style="font-size:12px;color:var(--color-text-secondary);margin-bottom:4px">Active jobs</div>
+      <div style="font-size:22px;font-weight:500;color:#185FA5">${open}</div>
+    </div>`;
+  if(!ps.length){document.getElementById('home-list').innerHTML='';document.getElementById('home-empty').style.display='block';return;}
+  document.getElementById('home-empty').style.display='none';
+  document.getElementById('home-list').innerHTML=ps.map(p=>{
+    const total=p.items.reduce((s,i)=>i.status!=='Cancelled'?s+(i.amount||0):s,0);
+    const paid=p.payments.reduce((s,pm)=>s+(pm.amount||0),0);
+    const due=total-paid;
+    const icon=getCatIcon(p.category);
+    const ic=initials(p.name);
+    return`<div onclick="openParty(${p.id})" style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:14px 16px;cursor:pointer;display:flex;align-items:center;gap:14px;transition:border-color .15s;margin-bottom:8px" onmouseenter="this.style.borderColor='var(--color-border-secondary)'" onmouseleave="this.style.borderColor='var(--color-border-tertiary)'">
+      <div style="width:42px;height:42px;border-radius:50%;background:#E1F5EE;display:flex;align-items:center;justify-content:center;font-weight:500;font-size:14px;color:#085041;flex-shrink:0">${ic}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-weight:500;font-size:14px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${p.name}</div>
+        <div style="font-size:12px;color:var(--color-text-secondary);margin-top:2px;display:flex;align-items:center;gap:6px"><i class="ti ${icon}" style="font-size:13px" aria-hidden="true"></i>${p.category||''}${p.phone?' · '+p.phone:''} · ${p.items.length} item${p.items.length!==1?'s':''}</div>
+      </div>
+      <div style="text-align:right;flex-shrink:0">
+        <div style="font-size:15px;font-weight:500">${inr(total)}</div>
+        <div style="font-size:12px;margin-top:2px;${due>0?'color:#A32D2D':'color:#0F6E56'}">${due>0?'Due '+inr(due):'Settled ✓'}</div>
+      </div>
+      <i class="ti ti-chevron-right" style="font-size:16px;color:var(--color-text-secondary);flex-shrink:0" aria-hidden="true"></i>
+    </div>`;
+  }).join('');
+}
+
+function saveParty(){
+  const name=document.getElementById('ap-name').value.trim();
+  if(!name){alert('Name zaroori hai');return;}
+  if(EDIT_PARTY){
+    const p=DB.parties.find(x=>x.id===EDIT_PARTY);
+    Object.assign(p,{name,phone:document.getElementById('ap-phone').value.trim(),category:document.getElementById('ap-cat').value,address:document.getElementById('ap-addr').value.trim()});
+    EDIT_PARTY=null;
+  } else {
+    DB.parties.unshift({id:DB.nid++,name,phone:document.getElementById('ap-phone').value.trim(),category:document.getElementById('ap-cat').value,address:document.getElementById('ap-addr').value.trim(),items:[],payments:[]});
+  }
+  save();go('home');
+}
+
+function editParty(){
+  const p=DB.parties.find(x=>x.id===CUR);if(!p)return;
+  EDIT_PARTY=p.id;
+  ['ap-name','ap-phone','ap-addr'].forEach(id=>document.getElementById(id).value=p[id.split('-')[1]]||'');
+  document.getElementById('ap-cat').value=p.category||'Other';
+  document.getElementById('ap-heading').textContent='Edit party';
+  go('add-party');
+}
+
+function openParty(id){CUR=id;go('party');}
+
+function renderParty(){
+  const p=DB.parties.find(x=>x.id===CUR);if(!p)return;
+  document.getElementById('pd-name').textContent=p.name;
+  document.getElementById('pd-meta').textContent=(p.category||'')+(p.phone?' · '+p.phone:'')+(p.address?' · '+p.address:'');
+  const total=p.items.reduce((s,i)=>i.status!=='Cancelled'?s+(i.amount||0):s,0);
+  const paid=p.payments.reduce((s,pm)=>s+(pm.amount||0),0);
+  const due=total-paid;
+  document.getElementById('pd-stats').innerHTML=`
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Items</div>
+      <div style="font-size:20px;font-weight:500">${p.items.length}</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Total bill</div>
+      <div style="font-size:20px;font-weight:500">${inr(total)}</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Received</div>
+      <div style="font-size:20px;font-weight:500;color:#0F6E56">${inr(paid)}</div>
+    </div>
+    <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:11px 14px">
+      <div style="font-size:11px;color:var(--color-text-secondary);margin-bottom:3px">Balance due</div>
+      <div style="font-size:20px;font-weight:500;color:${due>0?'#A32D2D':'#0F6E56'}">${due>0?inr(due):'Nil ✓'}</div>
+    </div>`;
+
+  const il=document.getElementById('items-list');
+  if(!p.items.length){
+    il.innerHTML=`<div style="text-align:center;padding:1.5rem;color:var(--color-text-secondary);font-size:13px;border:0.5px dashed var(--color-border-tertiary);border-radius:var(--border-radius-lg)">Koi item nahi — Add item karo</div>`;
+  } else {
+    il.innerHTML=p.items.map(it=>`
+      <div style="background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;display:flex;align-items:flex-start;gap:12px">
+        <div style="flex:1;min-width:0">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px">
+            <span style="font-weight:500;font-size:13px">${it.desc}</span>
+            ${statusBadge(it.status)}
+            ${it.job?`<span class="badge b-teal">${it.job}</span>`:''}
+          </div>
+          <div style="font-size:12px;color:var(--color-text-secondary);display:flex;gap:12px;flex-wrap:wrap">
+            <span><i class="ti ti-calendar" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>${fmt(it.date)}</span>
+            ${it.qty?`<span><i class="ti ti-stack" style="font-size:12px;vertical-align:-1px;margin-right:3px" aria-hidden="true"></i>${it.qty}</span>`:''}
+            ${it.notes?`<span style="color:var(--color-text-secondary)">${it.notes}</span>`:''}
+          </div>
+        </div>
+        <div style="text-align:right;flex-shrink:0">
+          <div style="font-size:15px;font-weight:500">${inr(it.amount)}</div>
+          ${it.rate?`<div style="font-size:11px;color:var(--color-text-secondary);margin-top:2px">@${inr(it.rate)}</div>`:''}
+        </div>
+        <div style="display:flex;flex-direction:column;gap:4px;flex-shrink:0">
+          <button class="btn btn-sm btn-ghost" style="padding:4px 6px" onclick="editItem(${it.id})"><i class="ti ti-edit" style="font-size:14px" aria-hidden="true"></i></button>
+          <button class="btn btn-sm btn-ghost" style="padding:4px 6px" onclick="delItem(${it.id})"><i class="ti ti-trash" style="font-size:14px;color:#E24B4A" aria-hidden="true"></i></button>
+        </div>
+      </div>`).join('');
+  }
+
+  const pl=document.getElementById('pmts-list');
+  if(!p.payments.length){
+    pl.innerHTML=`<div style="font-size:13px;color:var(--color-text-secondary);padding:8px 0">Koi payment record nahi</div>`;
+  } else {
+    pl.innerHTML=p.payments.map(pm=>`
+      <div style="background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:10px 14px;display:flex;align-items:center;gap:10px">
+        <i class="ti ti-circle-check" style="font-size:18px;color:#1D9E75;flex-shrink:0" aria-hidden="true"></i>
+        <div style="flex:1">
+          <div style="font-size:13px;font-weight:500;color:#0F6E56">${inr(pm.amount)}</div>
+          <div style="font-size:12px;color:var(--color-text-secondary)">${fmt(pm.date)} · ${pm.mode}${pm.note?' · '+pm.note:''}</div>
+        </div>
+        <button class="btn btn-sm btn-ghost" style="padding:4px 6px" onclick="delPayment(${pm.id})"><i class="ti ti-trash" style="font-size:14px;color:#E24B4A" aria-hidden="true"></i></button>
+      </div>`).join('');
+  }
+
+  document.getElementById('balance-card').innerHTML=`
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--color-text-secondary)">Total bill</span><span style="font-weight:500">${inr(total)}</span></div>
+      <div style="display:flex;justify-content:space-between;font-size:13px"><span style="color:var(--color-text-secondary)">Received</span><span style="font-weight:500;color:#0F6E56">− ${inr(paid)}</span></div>
+      <div style="border-top:0.5px solid var(--color-border-tertiary);padding-top:10px;display:flex;justify-content:space-between">
+        <span style="font-size:14px;font-weight:500">Balance due</span>
+        <span style="font-size:17px;font-weight:500;color:${due>0?'#A32D2D':'#0F6E56'}">${due>0?inr(due):'₹0 — Settled ✓'}</span>
+      </div>
+    </div>`;
+}
+
+function startAddItem(id){
+  EDIT_ITEM=id||null;
+  document.getElementById('ai-heading').textContent=id?'Edit item':'Add item';
+  if(id){
+    const p=DB.parties.find(x=>x.id===CUR);
+    const it=p.items.find(x=>x.id===id);
+    document.getElementById('ai-date').value=it.date||td();
+    document.getElementById('ai-job').value=it.job||'';
+    document.getElementById('ai-desc').value=it.desc||'';
+    document.getElementById('ai-qty').value=it.qty||'';
+    document.getElementById('ai-rate').value=it.rate||'';
+    document.getElementById('ai-amt').value=it.amount||'';
+    document.getElementById('ai-status').value=it.status||'Pending';
+    document.getElementById('ai-notes').value=it.notes||'';
+  } else {
+    document.getElementById('ai-date').value=td();
+    ['ai-job','ai-qty','ai-rate','ai-amt','ai-notes'].forEach(x=>document.getElementById(x).value='');
+    document.getElementById('ai-desc').value='';
+    document.getElementById('ai-status').value='Pending';
+  }
+  go('add-item');
+}
+function editItem(id){startAddItem(id);}
+function autoAmt(){
+  const r=parseFloat(document.getElementById('ai-rate').value)||0;
+  if(r)document.getElementById('ai-amt').value=Math.round(r);
+}
+function saveItem(){
+  const desc=document.getElementById('ai-desc').value.trim();
+  if(!desc){alert('Description daalo');return;}
+  const p=DB.parties.find(x=>x.id===CUR);
+  const it={id:EDIT_ITEM||DB.nid++,date:document.getElementById('ai-date').value||td(),job:document.getElementById('ai-job').value,desc,qty:document.getElementById('ai-qty').value.trim(),rate:parseFloat(document.getElementById('ai-rate').value)||0,amount:parseFloat(document.getElementById('ai-amt').value)||0,status:document.getElementById('ai-status').value,notes:document.getElementById('ai-notes').value.trim()};
+  if(EDIT_ITEM){const i=p.items.findIndex(x=>x.id===EDIT_ITEM);if(i>-1)p.items[i]=it;}
+  else p.items.push(it);
+  EDIT_ITEM=null;save();go('party');
+}
+function delItem(id){if(!confirm('Delete karein?'))return;const p=DB.parties.find(x=>x.id===CUR);p.items=p.items.filter(x=>x.id!==id);save();renderParty();}
+
+function showPmtForm(){document.getElementById('pmt-form').style.display='block';document.getElementById('pm-date').value=td();document.getElementById('pm-amt').value='';document.getElementById('pm-note').value='';}
+function savePayment(){
+  const amt=parseFloat(document.getElementById('pm-amt').value)||0;
+  if(!amt){alert('Amount daalo');return;}
+  const p=DB.parties.find(x=>x.id===CUR);
+  p.payments.push({id:DB.nid++,date:document.getElementById('pm-date').value||td(),amount:amt,mode:document.getElementById('pm-mode').value,note:document.getElementById('pm-note').value.trim()});
+  document.getElementById('pmt-form').style.display='none';save();renderParty();
+}
+function delPayment(id){if(!confirm('Delete karein?'))return;const p=DB.parties.find(x=>x.id===CUR);p.payments=p.payments.filter(x=>x.id!==id);save();renderParty();}
+
+go('home');
+</script>
+
+<style>
+body{padding:20px;max-width:1100px;margin:auto;background:#f7f9fc}
+.card,#home-list>div,#items-list>div{border-radius:22px!important;box-shadow:0 8px 25px rgba(0,0,0,.06)!important}
+.fab{position:fixed;bottom:25px;right:25px;width:60px;height:60px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:#1D9E75;color:white;font-size:30px;cursor:pointer}
+</style>
+<script>
+function deleteParty(){
+const v=prompt("Type DELETE");
+if(v!=="DELETE")return;
+DB.parties=DB.parties.filter(x=>x.id!==CUR);
+save();go('home');
+}
+</script>
+<div class='fab' onclick="go('add-party')">+</div>
